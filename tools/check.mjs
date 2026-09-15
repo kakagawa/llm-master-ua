@@ -8,7 +8,7 @@ const ROOT = resolve(new URL('..', import.meta.url).pathname)
 const files = execSync(`find ${join(ROOT,'docs')} -name '*.md'`, {encoding:'utf8'}).trim().split('\n')
 const only = process.argv[2]   // необов'язковий фільтр за шляхом
 
-let cjkFiles = 0, broken = 0, checked = 0
+let cjkFiles = 0, broken = 0, checked = 0, intentional = 0
 for (const f of files) {
   if (only && !f.includes(only)) continue
   checked++
@@ -18,7 +18,12 @@ for (const f of files) {
   // 1) китайські ієрогліфи поза блоками коду
   const noCode = src.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '')
   const cjk = [...noCode].filter(c => { const x=c.codePointAt(0); return x>=0x4e00&&x<=0x9fff }).length
-  if (cjk) { console.log(`  ${rel}: ще ${cjk} ієрогліфів`); cjkFiles++ }
+  if (cjk) {
+    // <!-- cjk-ok: причина --> позначає навмисні китайські приклади (дані вимірювань,
+    // які не можна перекладати). Такі файли не вважаються недоперекладеними.
+    if (/<!--\s*cjk-ok/.test(src)) { intentional++; console.log(`  ${rel}: ${cjk} ієрогліфів — навмисні (cjk-ok)`) }
+    else { console.log(`  ${rel}: ще ${cjk} ієрогліфів`); cjkFiles++ }
+  }
 
   // 2) биті відносні посилання
   for (const m of src.matchAll(/\[[^\]]*\]\((?!https?:|#|mailto:)([^)#]+)(?:#[^)]*)?\)/g)) {
@@ -26,4 +31,4 @@ for (const f of files) {
     if (!existsSync(target)) { console.log(`  ${rel} → битий лінк: ${m[1]}`); broken++ }
   }
 }
-console.log(`\nперевірено ${checked} файлів | з китайською: ${cjkFiles} | битих лінків: ${broken}`)
+console.log(`\nперевірено ${checked} файлів | недоперекладених: ${cjkFiles} | навмисна китайська: ${intentional} | битих лінків: ${broken}`)
