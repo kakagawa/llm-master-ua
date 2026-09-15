@@ -52,3 +52,5 @@ node tools/check.mjs docs/llm/app # тільки одна тека
 - `../../jianli/` (3 згадки) — у `app/agent_learning_roadmap.md`, `intro/llm_learning_roadmap.md`.
 - `./claude_prompt_cache.md`, `./claude_md.md`, `../java/`, `../cpp/` — сліди видалених заглушок.
 - `./structured_output.html`, `./model_integration.html` — `.html` замість `.md`, помилка ще в оригіналі.
+- `docs/README.md` → `llm/intro/claude_code_loop.md` — помилка в оригіналі: файл лежить у `llm/claude/`.
+  Виправити на `llm/claude/claude_code_loop.md` під час перекладу індексу.
