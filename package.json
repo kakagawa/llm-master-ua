@@ -4,12 +4,12 @@
   "description": "Український форк матеріалів про інженерію великих мовних моделей",
   "scripts": {
     "check": "node tools/check.mjs",
-    "tokens": "node tools/tokens-ua.mjs"
+    "tokens": "node tools/tokens-ua.mjs",
+    "code": "node tools/extract-code.mjs"
   },
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.125.0",
     "gpt-tokenizer": "^3.0.1"
   }
 }

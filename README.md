@@ -7,7 +7,7 @@
 Від першого виклику API до RAG, який можна виміряти, агентів, яким можна довіряти,
 і AI-систем, які можна викотити в продакшн.
 
-[![License](https://img.shields.io/github/license/ARTEM/llm-master-ua?style=flat-square&label=License)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 ![Articles](https://img.shields.io/badge/статей-126-1f6feb?style=flat-square)
 ![Language](https://img.shields.io/badge/мова-українська-005BBB?style=flat-square)
 

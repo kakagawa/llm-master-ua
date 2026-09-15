@@ -39,3 +39,9 @@ for (const f of files) {
   }
 }
 console.log(`\nперевірено ${checked} файлів | недоперекладених: ${cjkFiles} | навмисна китайська: ${intentional} | сторонні символи: ${stray} | битих лінків: ${broken}`)
+
+// Ненульовий код виходу, щоб це працювало в CI.
+if (cjkFiles || stray || broken) {
+  console.error("\nперевірка не пройшла")
+  process.exit(1)
+}

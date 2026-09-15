@@ -1,0 +1,34 @@
+name: Перевірка
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - run: npm install
+
+      - name: Залишки китайської, сторонні символи, биті лінки
+        run: npm run check
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r code/requirements.txt
+
+      - name: Код зі статей запускається
+        run: |
+          for f in code/transformer/*.py; do
+            echo "== $f"
+            python3 "$f" > /dev/null
+          done
