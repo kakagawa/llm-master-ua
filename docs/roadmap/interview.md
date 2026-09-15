@@ -1,21 +1,21 @@
-# 大模型求职与面试路线
+# Шлях до співбесіди й працевлаштування в LLM
 
-先按目标岗位补齐知识，再用“问题—原理—工程取舍—指标—项目证据”的结构练习回答。
+Спершу закрийте знання під цільову позицію, а потім тренуйте відповіді за структурою «проблема — принцип — інженерний компроміс — метрика — доказ із проєкту».
 
-## 通用主线
+## Основна лінія
 
-1. [Transformer 面试题](../interview/llm/transformer_interview.md)
-2. [RAG 面试题](../interview/llm/rag_interview.md)
-3. [Agent 面试题](../interview/llm/agent_interview.md)
-4. [微调面试详解](../interview/llm/finetuning_sft_rlhf_interview.md)
-5. [Vibe Coding 面试题](../interview/llm/vibe_coding_interview.md)
+1. [Питання про Transformer](../interview/llm/transformer_interview.md)
+2. [Питання про RAG](../interview/llm/rag_interview.md)
+3. [Питання про агентів](../interview/llm/agent_interview.md)
+4. [Розбір питань про fine-tuning](../interview/llm/finetuning_sft_rlhf_interview.md)
+5. [Питання про Vibe Coding](../interview/llm/vibe_coding_interview.md)
 
-## 项目表达检查表
+## Чекліст: як подавати проєкт
 
-- 业务问题和不用大模型时的基线是什么？
-- 为什么选择 Prompt、RAG、微调或 Agent？
-- 数据、架构、指标和评测集如何设计？
-- 最难的故障是什么，如何定位和修复？
-- 延迟、成本、质量、安全之间做了什么取舍？
+- Яка бізнес-проблема і яким був базовий результат без LLM?
+- Чому обрали саме промпти, RAG, fine-tuning чи агента?
+- Як спроєктовано дані, архітектуру, метрики й набір для оцінювання?
+- Який збій був найскладнішим, як його локалізували та полагодили?
+- На які компроміси пішли між затримкою, вартістю, якістю та безпекою?
 
-完整题目与真实面经见[面试资料首页](../interview/llm/README.md)。
+Повний банк питань і розбори реальних співбесід — на [головній сторінці матеріалів до співбесід](../interview/llm/README.md).

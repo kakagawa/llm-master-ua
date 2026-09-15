@@ -1,19 +1,19 @@
-# AI 编程专题
+# Тема: AI-програмування
 
-## 入门与工具体系
+## Вступ і набір інструментів
 
-- [AI 编程产品三层架构](../llm/intro/ai-coding-three-layers.md)
-- [为什么 Agent 时代都在做 CLI](../llm/claude/agent_cli.md)
-- [Claude Code 完整使用指南](../llm/claude/claude_code_toolkit_guide.md)
-- [从 CLAUDE.md 到 Hooks、Skills、Subagents](../llm/claude/claude_code_extensions_evolution.md)
-- [Claude Code 如何读懂大代码库](../llm/claude/claude_code_large_codebase.md)
-- [Prompt Cache、Plan Mode 与上下文压缩](../llm/claude/claude_prompt_cache.md)
+- [Три рівні архітектури AI-продуктів для програмування](../llm/intro/ai-coding-three-layers.md)
+- [Чому в епоху агентів усі роблять CLI](../llm/claude/agent_cli.md)
+- [Повний посібник з Claude Code](../llm/claude/claude_code_toolkit_guide.md)
+- [Від CLAUDE.md до Hooks, Skills і субагентів](../llm/claude/claude_code_extensions_evolution.md)
+- [Як Claude Code розбирається у великій кодовій базі](../llm/claude/claude_code_large_codebase.md)
+- [Prompt Cache, Plan Mode і стиснення контексту](../llm/claude/claude_prompt_cache.md)
 
-## 工程方法与面试
+## Інженерні методи та співбесіда
 
-- [Loop Engineering 实战](../llm/claude/loop_engineering_guide.md)
-- [动态工作流](../llm/claude/dynamic_workflows.md)
-- [大规模代码迁移案例](../llm/claude/ai_code_migration.md)
+- [Loop Engineering на практиці](../llm/claude/loop_engineering_guide.md)
+- [Динамічні робочі процеси](../llm/claude/dynamic_workflows.md)
+- [Кейс масштабної міграції коду](../llm/claude/ai_code_migration.md)
 - [Spec-Driven Development](../interview/llm/spec_driven_development_interview.md)
-- [Vibe Coding 避坑](../interview/llm/vibe_coding_backup_engineering.md)
-- [AI 增强开发三件套](../interview/llm/ai_enhanced_development_openspec_superpowers_gstack.md)
+- [Vibe Coding: як не наступити на граблі](../interview/llm/vibe_coding_backup_engineering.md)
+- [Три інструменти AI-посиленої розробки](../interview/llm/ai_enhanced_development_openspec_superpowers_gstack.md)

@@ -1,20 +1,20 @@
-# 大模型应用开发路线
+# Шлях розробки застосунків на LLM
 
-## 模型调用基本功
+## Основи роботи з моделлю
 
-1. [模型接入真实应用](../llm/app/model_integration.md)
+1. [Вбудовування моделі в реальний застосунок](../llm/app/model_integration.md)
 2. [Prompt Engineering](../llm/app/prompt_engineering.md)
-3. [Few-shot、CoT 与 Reflection](../llm/app/prompt_fewshot_cot_reflection.md)
-4. [结构化输出](../llm/app/structured_output.md)
-5. [同步、异步与流式输出](../llm/app/streaming_output.md)
+3. [Few-shot, CoT і Reflection](../llm/app/prompt_fewshot_cot_reflection.md)
+4. [Структурований вивід](../llm/app/structured_output.md)
+5. [Синхронний, асинхронний і потоковий вивід](../llm/app/streaming_output.md)
 6. [Function Calling](../llm/app/function_calling.md)
 7. [Context Engineering](../llm/app/context_engineering.md)
-8. [Token、成本与延迟](../llm/app/token_cost_latency.md)
+8. [Токени, вартість і затримка](../llm/app/token_cost_latency.md)
 
-## 接着学习
+## Що вивчати далі
 
-- 用 [RAG 专题](../topics/rag.md)解决私有知识与时效性问题。
-- 用 [Agent 路线](agent.md)处理需要工具、状态和动态决策的任务。
-- 用 [部署专题](../topics/deployment.md)把 Demo 推向生产。
+- [Тема: RAG](../topics/rag.md) — розв'язує проблему приватних знань і актуальності.
+- [Шлях агента](agent.md) — для задач, де потрібні інструменти, стан і динамічні рішення.
+- [Тема: деплой](../topics/deployment.md) — щоб довести демо до продакшну.
 
-阶段项目：实现一个支持流式响应、JSON Schema、工具调用、超时重试和成本统计的最小业务服务。
+Проєкт етапу: реалізувати мінімальний бізнес-сервіс із потоковими відповідями, JSON Schema, викликом інструментів, таймаутами з повторними спробами та обліком вартості.

@@ -1,18 +1,18 @@
-# Transformer 专题
+# Тема: Transformer
 
-## 原理路线
+## Лінія принципів
 
-1. [为什么大模型绕不开 Transformer](../llm/transformer/transformer_base_1.md)
-2. [Transformer 数据流](../llm/transformer/transformer_data_flow.md)
-3. [Q、K、V 与 Attention](../llm/transformer/qkv.md)
-4. [Attention 计算全过程](../llm/transformer/qkv_cal.md)
+1. [Чому LLM не обійтися без Transformer](../llm/transformer/transformer_base_1.md)
+2. [Потік даних у Transformer](../llm/transformer/transformer_data_flow.md)
+3. [Q, K, V і attention](../llm/transformer/qkv.md)
+4. [Повний процес обчислення attention](../llm/transformer/qkv_cal.md)
 5. [Multi-Head Attention](../llm/transformer/mha.md)
-6. [位置编码](../llm/transformer/pos_encode.md)
+6. [Позиційне кодування](../llm/transformer/pos_encode.md)
 7. [Transformer Block](../llm/transformer/transformer_structure.md)
-8. [残差、LayerNorm 与 FFN](../llm/transformer/ffn_ln.md)
-9. [三种 Transformer 架构](../llm/transformer/transformer_base_encoder_decoder.md)
+8. [Залишкові з'єднання, LayerNorm і FFN](../llm/transformer/ffn_ln.md)
+9. [Три архітектури Transformer](../llm/transformer/transformer_base_encoder_decoder.md)
 
-## 代码与面试
+## Код і співбесіда
 
-- 依次手写 [Attention](../llm/transformer/attention_code.md)、[多头注意力](../llm/transformer/mha_code.md)、[FFN](../llm/transformer/fnn_code.md)、[LayerNorm 与残差](../llm/transformer/layernorm_residual_code.md)、[Transformer Block](../llm/transformer/transformer_block_code.md) 和 [Tiny Transformer](../llm/transformer/tiny_transformer_code.md)。
-- 用 [Transformer 面试题](../interview/llm/transformer_interview.md)检查表达。
+- Напишіть з нуля, по черзі: [attention](../llm/transformer/attention_code.md), [multi-head attention](../llm/transformer/mha_code.md), [FFN](../llm/transformer/fnn_code.md), [LayerNorm і залишкові з'єднання](../llm/transformer/layernorm_residual_code.md), [Transformer Block](../llm/transformer/transformer_block_code.md) і [Tiny Transformer](../llm/transformer/tiny_transformer_code.md).
+- Перевірте, як формулюєте, на [питаннях про Transformer](../interview/llm/transformer_interview.md).

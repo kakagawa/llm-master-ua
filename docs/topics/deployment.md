@@ -1,9 +1,9 @@
-# 部署与性能专题
+# Тема: деплой і продуктивність
 
-1. [大模型部署方案选型](../llm/app/deployment_options.md)
-2. [KV Cache 与 PagedAttention](../llm/app/kv_cache_paged_attention.md)
-3. [大模型量化](../llm/app/model_quantization.md)
-4. [服务压测与容量规划](../llm/app/stress_testing.md)
-5. [Token、成本与延迟](../llm/app/token_cost_latency.md)
+1. [Вибір схеми розгортання LLM](../llm/app/deployment_options.md)
+2. [KV Cache і PagedAttention](../llm/app/kv_cache_paged_attention.md)
+3. [Квантизація моделей](../llm/app/model_quantization.md)
+4. [Навантажувальне тестування та планування потужностей](../llm/app/stress_testing.md)
+5. [Токени, вартість і затримка](../llm/app/token_cost_latency.md)
 
-完成标准：能针对目标流量给出模型与部署方式、显存估算、TTFT/TPOT/P99 指标、压测方法、容量余量和降级策略。
+Критерій завершення: для заданого трафіку ви можете назвати модель і спосіб розгортання, оцінити потрібну відеопам'ять, задати метрики TTFT/TPOT/P99, описати методику навантажувального тесту, запас потужності та стратегію деградації.
