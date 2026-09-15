@@ -1,255 +1,257 @@
 ---
-title: 手撕LayerNorm与残差连接：别让基础组件被忽略
-description: 手撕LayerNorm和残差连接代码实现，讲清LayerNorm均值方差计算、epsilon稳定项、可学习参数gamma和beta、残差连接加法操作以及它们在Transformer Block中的位置，帮助理解大模型训练稳定性和面试手撕代码。
-keywords: [手撕LayerNorm, LayerNorm代码实现, 残差连接代码, Residual Connection, 面试手撕代码, Transformer面试题]
-tags: [Transformer, 手撕代码, 面试]
+title: "Пишемо LayerNorm і залишкове з'єднання з нуля: не дайте базовим компонентам лишитися непоміченими"
+description: Реалізація LayerNorm і залишкового з'єднання власноруч. Пояснюємо обчислення середнього й дисперсії в LayerNorm, стабілізувальний доданок epsilon, навчані параметри gamma і beta, операцію додавання в залишковому з'єднанні та їхнє місце в Transformer Block. Допомагає зрозуміти стабільність навчання великих моделей і написати код на співбесіді.
+keywords: [написати LayerNorm з нуля, реалізація LayerNorm, код залишкового з'єднання, Residual Connection, код на співбесіді, питання про Transformer]
+tags: [Transformer, код з нуля, співбесіда]
 ---
 
-# 手撕LayerNorm与残差连接：别让基础组件被忽略
+# Пишемо LayerNorm і залишкове з'єднання з нуля: не дайте базовим компонентам лишитися непоміченими
 
-上一篇文章我们把 FFN 从零手撕了一遍，走完了升维 → 激活 → 降维的完整流程。
+У попередній статті ми з нуля написали FFN і пройшли повний шлях: підвищення розмірності → активація → зниження розмірності.
 
-这篇文章我们来手撕两个**长期被"配角化"的组件**：**残差连接（Residual Connection）** 和 **层归一化（LayerNorm）**。
+Тепер напишемо власноруч два компоненти, яких **давно звикли вважати другорядними**: **залишкове з'єднання (residual connection)** і **нормалізацію шару (LayerNorm)**.
 
-它们看起来简单，代码加起来不超过 20 行，但缺了任何一个，Transformer 就跑不深。
+На вигляд вони прості, коду разом не більше 20 рядків, але без будь-якого з них Transformer не вдасться зробити глибоким.
 
-## 残差连接
-残差连接的公式只有一行：
+> Числові твердження цієї статті перевірені скриптом
+> [`tools/verify-layernorm.mjs`](../../../tools/verify-layernorm.mjs).
+
+## Залишкове з'єднання
+
+Формула залишкового з'єднання займає один рядок:
 
 $$
-\text{输出} = F(x) + x
+\text{вихід} = F(x) + x
 $$
 
-$F(x)$ 是子层的输出（比如 Attention 或 FFN 的结果），$x$ 是这一层的输入。两者**直接相加**。
+$F(x)$ — вихід підшару (наприклад, результат attention або FFN), $x$ — вхід цього шару. Вони просто **додаються**.
 
-就这么简单？就这么简单。
+І це все? Так, це все.
 
-但它解决了一个深层网络的根本问题：**梯度消失**。
+Але цим розв'язано фундаментальну проблему глибоких мереж: **зникання градієнта**.
 
-反向传播时，梯度需要从最后一层一路流回第一层。每穿过一层，就要乘一次该层的导数，如果导数很小（比如 Sigmoid 激活区域），链式相乘下来，梯度会指数级缩小，前面几层根本收不到有效的训练信号。
+Під час зворотного поширення градієнт має пройти від останнього шару аж до першого. Проходячи кожен шар, він множиться на похідну цього шару, і якщо похідна мала (скажімо, в зоні насичення сигмоїди), то за ланцюговим правилом градієнт зменшується експоненційно, і перші шари взагалі не отримують корисного навчального сигналу.
 
-残差连接的巧妙在于：它给梯度提供了一条**"高速公路"**，可以绕过中间层直接流回去，不需要每一层都"乘一遍"。
+Хитрість залишкового з'єднання в тому, що воно дає градієнту **«швидкісну магістраль»**: він може оминути проміжні шари й потекти назад напряму, не множачись на кожному з них.
 
-![LayerNorm代码计算流程示意图](https://file1.kamacoder.com/i/algo/article13_423_p1.drawio.png)
+![Схема обчислень LayerNorm у коді](https://file1.kamacoder.com/i/algo/article13_423_p1.drawio.png)
 
-代码里实现残差非常直接：
+У коді залишкове з'єднання реалізується дуже прямолінійно:
 
 ```python
 import numpy as np
 
 def residual_connection(x, sublayer_output):
     """
-    残差连接：直接相加
-    
-    参数：
-        x:               子层的输入, shape (L, d_model)
-        sublayer_output: 子层的输出, shape (L, d_model)
-    
-    返回：
-        shape (L, d_model)，和输入完全一致
+    Залишкове з'єднання: просто додаємо
+
+    Параметри:
+        x:               вхід підшару, shape (L, d_model)
+        sublayer_output: вихід підшару, shape (L, d_model)
+
+    Повертає:
+        shape (L, d_model), повністю збігається з входом
     """
     return x + sublayer_output
 
-# 测试
+# Тест
 L, d_model = 7, 8
 np.random.seed(42)
 
-x = np.random.randn(L, d_model)             # 子层输入
-sublayer_out = np.random.randn(L, d_model)  # 子层输出（模拟）
+x = np.random.randn(L, d_model)             # вхід підшару
+sublayer_out = np.random.randn(L, d_model)  # вихід підшару (імітація)
 
 output = residual_connection(x, sublayer_out)
-print(f"输入形状:   {x.shape}")             # (7, 8)
-print(f"子层输出:   {sublayer_out.shape}")  # (7, 8)
-print(f"残差输出:   {output.shape}")        # (7, 8)
+print(f"Форма входу:            {x.shape}")             # (7, 8)
+print(f"Вихід підшару:          {sublayer_out.shape}")  # (7, 8)
+print(f"Залишковий вихід:       {output.shape}")        # (7, 8)
 ```
 
-**输出：**
+**Вивід:**
 ```
-输入形状:   (7, 8)
-子层输出:   (7, 8)
-残差输出:   (7, 8)
+Форма входу:            (7, 8)
+Вихід підшару:          (7, 8)
+Залишковий вихід:       (7, 8)
 ```
 
-就是一个加法，形状完全不变。但正是这个加法，让 Transformer 能稳定地堆到 100 多层。
+Це просто додавання, форма не змінюється зовсім. Але саме це додавання дозволяє стабільно нарощувати Transformer до понад ста шарів.
 
 ## LayerNorm
 
-残差相加之后，数值的范围可能变得很大或者很不均匀——有的维度值极大，有的极小。进入下一层计算时，这种不稳定会严重影响训练效果。
+Після залишкового додавання діапазон значень може стати дуже широким або нерівномірним: в одних вимірах значення величезні, в інших крихітні. На вході в наступний шар така нестабільність серйозно псує навчання.
 
-LayerNorm 要做的事，就是把每个 Token 的向量**归一化**：均值变成 0，方差变成 1。
+Задача LayerNorm — **нормалізувати** вектор кожного токена: привести середнє до 0, а дисперсію до 1.
 
-公式如下：
+Формула така:
 
 $$
 \text{LayerNorm}(x) = \frac{x - \mu}{\sigma + \epsilon} \cdot \gamma + \beta
 $$
 
-一共四步：
+Разом чотири кроки:
 
-1. 算这个向量的均值 $\mu$
-2. 算这个向量的标准差 $\sigma$
-3. 用 $(x - \mu) / \sigma$ 标准化，每个维度都"缩"到均值 0、方差 1
-4. 再乘 $\gamma$（缩放）、加 $\beta$（偏移）——这两个是可学习参数，让模型自己决定"归一化到什么程度"
+1. обчислити середнє $\mu$ цього вектора
+2. обчислити стандартне відхилення $\sigma$ цього вектора
+3. стандартизувати через $(x - \mu) / \sigma$, щоб кожен вимір «стиснувся» до середнього 0 і дисперсії 1
+4. помножити на $\gamma$ (масштаб) і додати $\beta$ (зсув) — це навчані параметри, які дозволяють моделі самій вирішувати, «наскільки сильно нормалізувати»
 
-其中 $\epsilon$ 是一个很小的数（比如 1e-5），防止分母为 0。
+Тут $\epsilon$ — дуже мале число (наприклад, 1e-5), яке не дає знаменнику стати нулем.
 
-![残差连接代码计算流程示意图](https://file1.kamacoder.com/i/algo/article13_423_p2.drawio.png)
+![Схема обчислень залишкового з'єднання в коді](https://file1.kamacoder.com/i/algo/article13_423_p2.drawio.png)
 
 ```python
 class LayerNorm:
     def __init__(self, d_model, eps=1e-5):
         """
         LayerNorm
-        
-        参数：
-            d_model: 向量维度
-            eps:     防止除零的小常数
+
+        Параметри:
+            d_model: розмірність вектора
+            eps:     мала константа проти ділення на нуль
         """
-        self.gamma = np.ones(d_model)   # 可学习缩放参数，初始化为 1
-        self.beta  = np.zeros(d_model)  # 可学习偏移参数，初始化为 0
+        self.gamma = np.ones(d_model)   # навчаний параметр масштабу, ініціалізується одиницями
+        self.beta  = np.zeros(d_model)  # навчаний параметр зсуву, ініціалізується нулями
         self.eps   = eps
-    
+
     def forward(self, x):
         """
         x: shape (L, d_model)
         """
-        # 对每个 Token（每一行）分别计算均值和标准差
+        # Для кожного токена (кожного рядка) окремо рахуємо середнє й станд. відхилення
         mu    = x.mean(axis=-1, keepdims=True)          # (L, 1)
         sigma = x.std(axis=-1, keepdims=True)           # (L, 1)
-        
-        # 标准化
+
+        # Стандартизація
         x_norm = (x - mu) / (sigma + self.eps)          # (L, d_model)
-        
-        # 缩放 + 偏移（广播到每一行）
+
+        # Масштаб + зсув (broadcast на кожен рядок)
         return self.gamma * x_norm + self.beta          # (L, d_model)
 
 
-# 测试
+# Тест
 np.random.seed(42)
 L, d_model = 7, 8
-x = np.random.randn(L, d_model) * 10  # 故意放大数值，模拟数值不稳定的情况
+x = np.random.randn(L, d_model) * 10  # навмисно збільшуємо значення, імітуючи нестабільність
 
 ln = LayerNorm(d_model)
 output = ln.forward(x)
 
-print(f"归一化前 - 均值: {x.mean():.2f}, 标准差: {x.std():.2f}")
-print(f"归一化后 - 均值: {output.mean():.4f}, 标准差: {output.std():.4f}")
-print(f"输入形状: {x.shape}, 输出形状: {output.shape}")
+print(f"До нормалізації  - середнє: {x.mean():.2f}, станд. відхилення: {x.std():.2f}")
+print(f"Після нормалізації - середнє: {output.mean():.4f}, станд. відхилення: {output.std():.4f}")
+print(f"Форма входу: {x.shape}, форма виходу: {output.shape}")
 ```
 
-**输出：**
+**Вивід:**
 ```
-归一化前 - 均值: -0.37, 标准差: 9.87
-归一化后 - 均值: 0.0000, 标准差: 1.0000
-输入形状: (7, 8), 输出形状: (7, 8)
+До нормалізації  - середнє: -1.69, станд. відхилення: 9.13
+Після нормалізації - середнє: -0.0000, станд. відхилення: 1.0000
+Форма входу: (7, 8), форма виходу: (7, 8)
 ```
 
-输入的标准差接近 10，归一化之后变成了 1——数值被"拉"回了合理范围，而形状完全不变。
+Стандартне відхилення входу близьке до 10, а після нормалізації стало 1 — значення «підтягнуто» назад у розумний діапазон, і при цьому форма не змінилася зовсім.
 
+## Складаємо обидва разом: Add & Norm
 
-## 把两者拼在一起 Add & Norm
-
-在 Transformer 里，残差连接和 LayerNorm 从来不分家，标准写法叫 **Add & Norm**：
+У Transformer залишкове з'єднання й LayerNorm ніколи не розлучаються, і стандартний запис називається **Add & Norm**:
 
 $$
-\text{输出} = \text{LayerNorm}(x + F(x))
+\text{вихід} = \text{LayerNorm}(x + F(x))
 $$
 
-先加（残差），再归一化（LayerNorm）。每个子模块——无论是 Attention 还是 FFN——后面都跟一个这样的结构。
+Спершу додавання (залишкове з'єднання), потім нормалізація (LayerNorm). Кожен підмодуль — байдуже, attention це чи FFN — має за собою таку конструкцію.
 
 ```python
 def add_and_norm(x, sublayer_output, layer_norm):
     """
-    Add & Norm：残差连接 + LayerNorm
-    
-    参数：
-        x:               子层输入,  shape (L, d_model)
-        sublayer_output: 子层输出,  shape (L, d_model)
-        layer_norm:      LayerNorm 实例
-    
-    返回：
+    Add & Norm: залишкове з'єднання + LayerNorm
+
+    Параметри:
+        x:               вхід підшару,  shape (L, d_model)
+        sublayer_output: вихід підшару, shape (L, d_model)
+        layer_norm:      екземпляр LayerNorm
+
+    Повертає:
         shape (L, d_model)
     """
     return layer_norm.forward(x + sublayer_output)
 
 
-# 完整测试
+# Повний тест
 np.random.seed(42)
 L, d_model = 7, 8
 
 x            = np.random.randn(L, d_model)
-attn_output  = np.random.randn(L, d_model)  # 模拟 Attention 子层的输出
-ffn_output   = np.random.randn(L, d_model)  # 模拟 FFN 子层的输出
+attn_output  = np.random.randn(L, d_model)  # імітуємо вихід підшару attention
+ffn_output   = np.random.randn(L, d_model)  # імітуємо вихід підшару FFN
 
 ln1 = LayerNorm(d_model)
 ln2 = LayerNorm(d_model)
 
-# Attention 子层 → Add & Norm
+# Підшар attention → Add & Norm
 after_attn = add_and_norm(x, attn_output, ln1)
-print(f"Attention 子层后: {after_attn.shape}")  # (7, 8)
+print(f"Після підшару attention: {after_attn.shape}")  # (7, 8)
 
-# FFN 子层 → Add & Norm
+# Підшар FFN → Add & Norm
 after_ffn  = add_and_norm(after_attn, ffn_output, ln2)
-print(f"FFN 子层后:       {after_ffn.shape}")   # (7, 8)
+print(f"Після підшару FFN:       {after_ffn.shape}")   # (7, 8)
 
-print(f"\n输入形状:  {x.shape}")
-print(f"输出形状:  {after_ffn.shape}")
-print(f"形状一致:  {x.shape == after_ffn.shape}")
+print(f"\nФорма входу:      {x.shape}")
+print(f"Форма виходу:     {after_ffn.shape}")
+print(f"Форми збігаються: {x.shape == after_ffn.shape}")
 ```
 
-**输出：**
+**Вивід:**
 ```
-Attention 子层后: (7, 8)
-FFN 子层后:       (7, 8)
+Після підшару attention: (7, 8)
+Після підшару FFN:       (7, 8)
 
-输入形状:  (7, 8)
-输出形状:  (7, 8)
-形状一致:  True
+Форма входу:      (7, 8)
+Форма виходу:     (7, 8)
+Форми збігаються: True
 ```
 
 ---
 
-## Post-Norm vs Pre-Norm
+## Post-Norm проти Pre-Norm
 
-上面写的是 **Post-Norm**，也就是原始论文的做法：先算子层，后归一化。
+Вище написано **Post-Norm** — саме так зроблено в оригінальній статті: спершу обчислюється підшар, потім нормалізація.
 
 $$
 \text{Post-Norm:} \quad x' = \text{LayerNorm}(x + F(x))
 $$
 
-但现代大模型（比如 Llama、GPT-3）基本都改成了 **Pre-Norm**：先归一化，再算子层。
+Але сучасні великі моделі (наприклад, Llama, GPT-3) здебільшого перейшли на **Pre-Norm**: спершу нормалізація, потім обчислення підшару.
 
 $$
 \text{Pre-Norm:} \quad x' = x + F(\text{LayerNorm}(x))
 $$
 
-两者差别只有一行代码，效果却不同：Pre-Norm 的训练更稳定，在层数很深（几十层以上）时尤为明显。
+Різниця лише в одному рядку коду, а ефект різний: з Pre-Norm навчання стабільніше, і це особливо помітно за великої кількості шарів (від кількох десятків).
 
 ```python
-# Post-Norm（原始 Transformer）
+# Post-Norm (оригінальний Transformer)
 def post_norm(x, sublayer_fn, layer_norm):
     return layer_norm.forward(x + sublayer_fn(x))
 
-# Pre-Norm（现代大模型）
+# Pre-Norm (сучасні великі моделі)
 def pre_norm(x, sublayer_fn, layer_norm):
     return x + sublayer_fn(layer_norm.forward(x))
 ```
 
-记住这两种写法的区别，面试或者读源码时会频繁遇到。
+Запам'ятайте різницю між цими двома варіантами: і на співбесідах, і під час читання вихідного коду вона трапляється постійно.
 
 ---
 
-## 步骤汇总
+## Зведення кроків
 
-| 组件 | 公式 | 核心作用 |
+| Компонент | Формула | Ключова роль |
 |------|------|----------|
-| 残差连接 | $F(x) + x$ | 给梯度留高速公路，防止深层网络训练崩 |
-| LayerNorm | $\frac{x-\mu}{\sigma} \cdot \gamma + \beta$ | 把每个 Token 的向量拉回均值 0、方差 1 |
-| Add & Norm | $\text{LayerNorm}(x + F(x))$ | 两者捆绑，每个子层后面都挂一个 |
-
+| Залишкове з'єднання | $F(x) + x$ | лишає градієнту швидкісну магістраль, не дає навчанню глибокої мережі зламатися |
+| LayerNorm | $\frac{x-\mu}{\sigma} \cdot \gamma + \beta$ | повертає вектор кожного токена до середнього 0 і дисперсії 1 |
+| Add & Norm | $\text{LayerNorm}(x + F(x))$ | зв'язка обох, яка чіпляється після кожного підшару |
 
 ---
 
-到这里，Transformer Block 的所有零件——Multi-Head Attention、FFN、残差连接、LayerNorm——我们都手撕完了。
+На цьому всі деталі Transformer Block — multi-head attention, FFN, залишкове з'єднання й LayerNorm — ми написали власноруч.
 
-下一篇文章，我们会把这些零件真正**拼成一个完整的 Transformer Encoder Block**，一行一行跑通完整的前向过程，大家点个关注不迷路～
+У наступній статті ми справді **складемо з цих деталей повний Transformer Encoder Block** і рядок за рядком проженемо повний прямий прохід.
