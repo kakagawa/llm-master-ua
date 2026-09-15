@@ -1,118 +1,116 @@
 ---
-title: 2026最全大模型面经汇总｜Agent、RAG、Transformer、Vibe Coding大厂面试题与回答思路
-description: 汇总2026年大模型方向高频面试题和真实面经，覆盖Agent、RAG、GraphRAG、Transformer、Vibe Coding、Claude Code、微调SFT/RLHF、Harness、多Agent、Context Engineering等热门方向，整理大厂常见追问、回答思路和项目表达方法，适合准备大模型应用开发、Agent开发、LLM工程和AI求职的同学系统复习。
+title: "Найповніша збірка питань зі співбесід про LLM 2026: Agent, RAG, Transformer, Vibe Coding — питання великих компаній і підходи до відповідей"
+description: Збірка частих питань і реальних розповідей про співбесіди за напрямом великих мовних моделей у 2026 році. Охоплює агентів, RAG, GraphRAG, Transformer, Vibe Coding, Claude Code, донавчання SFT/RLHF, harness, мультиагентні системи, інженерію контексту та інші гарячі теми; зібрано типові уточнення інтерв'юерів, підходи до відповідей і способи розповісти про свої проєкти.
 keywords:
-  - 大模型面经
-  - 大模型面试题
-  - LLM面经
-  - Agent面试题
-  - Agent开发面试
-  - RAG面试题
-  - GraphRAG面试
-  - Transformer面试题
-  - 大模型微调面试
-  - Vibe Coding面试
-  - Claude Code面试
-  - 大模型应用开发面试
-  - 大厂面试
-  - AI面试
-  - 大模型求职
+  - співбесіди про LLM
+  - питання зі співбесід про великі моделі
+  - розповіді про співбесіди
+  - питання про агентів
+  - співбесіда на розробку агентів
+  - питання про RAG
+  - співбесіда про GraphRAG
+  - питання про Transformer
+  - співбесіда про донавчання
+  - співбесіда про Vibe Coding
+  - співбесіда про Claude Code
+  - співбесіда на розробку застосунків з LLM
+  - співбесіди у великих компаніях
+  - співбесіда з AI
+  - пошук роботи в AI
 tags:
-  - 大模型面经
-  - LLM面试
-  - AI求职
-  - 大厂面试
+  - співбесіди про LLM
+  - співбесіда про великі моделі
+  - пошук роботи в AI
+  - співбесіди у великих компаніях
 ---
 
-# 大模型面经汇总：Agent、RAG、Transformer、AI编程大厂面试题
+# Збірка питань зі співбесід про LLM: агенти, RAG, Transformer і програмування з AI
 
-这里整理了 2026 年**大模型方向的高频面试题和真实面经**，覆盖 **Agent、RAG、Transformer、模型微调、AI 编程（Vibe Coding / Claude Code）** 五大块。不管你投的是大模型应用开发、Agent 开发、LLM 工程还是 AI 后端，这些都是大厂面试官反复深挖的考点。
+Тут зібрано **часті питання й реальні розповіді про співбесіди за напрямом великих моделей** 2026 року: п'ять великих блоків — **агенти, RAG, Transformer, донавчання моделей і програмування з AI (Vibe Coding / Claude Code)**. Байдуже, чи йдете ви на розробку застосунків із LLM, розробку агентів, LLM-інженерію чи AI-бекенд — саме в цих темах інтерв'юери копають найглибше.
 
-每一篇都不是让你背答案，而是带你**理解面试官的考察逻辑**——为什么这么问、追问会往哪走、怎么结合项目说清楚。持续更新中，建议收藏。
+Жодна зі статей не пропонує зазубрити відповідь: вони показують **логіку самого інтерв'юера** — навіщо він це питає, куди поведуть уточнення і як пов'язати відповідь із власним проєктом.
 
-## 怎么用这一页
+## Як користуватися цією сторінкою
 
-录友们可以按目标岗位挑方向刷，不用一上来全看：
+Обирайте напрям за цільовою позицією — читати все одразу не обов'язково:
 
-- **大模型应用开发 / LLM 工程岗**：[RAG](./rag_interview.md) + [Agent](./agent_interview.md) + [Transformer](./transformer_interview.md) 是地基，先把这三块吃透
-- **Agent 开发岗**：重点刷 [Agent 智能体篇](#agent-智能体篇)，再配合[字节 Agent 开发四面面经](./20260506bytedance.md)和[番茄小说 Agent 应用开发一面](./bytedance_fanqie_agent_intern_interview.md)感受项目连续深挖的节奏
-- **想体现 AI 编程工程能力**：看 [AI 编程篇](#ai-编程篇)，重点是怎么把 AI 用出工程素养，而不是只会调 API
-- **查漏补缺**：每篇结尾都有"面试怎么答"，看完能直接在面试里说出来
+- **розробка застосунків із LLM / LLM-інженерія**: фундамент — [RAG](./rag_interview.md) + [агенти](./agent_interview.md) + [Transformer](./transformer_interview.md); спершу засвойте ці три блоки;
+- **розробка агентів**: основна увага розділу [Агенти](#агенти), а далі [чотири раунди співбесіди на розробку агентів у ByteDance](./20260506bytedance.md) і [перший раунд співбесіди на розробку агентів у Tomato Novel](./bytedance_fanqie_agent_intern_interview.md), щоб відчути ритм послідовного заглиблення в проєкт;
+- **показати інженерну спроможність у програмуванні з AI**: розділ [Програмування з AI](#програмування-з-ai) — головне тут не «вмію користуватися Cursor», а вміння застосувати AI з інженерною культурою;
+- **закрити прогалини**: наприкінці кожної статті є розділ «як відповідати на співбесіді», який можна одразу проговорити вголос.
 
-下面这些文章之间是**互相引用的知识系列**，遇到链接顺着点进去，能把一个方向连成一张网。
+Статті нижче **посилаються одна на одну**, тож, ідучи за посиланнями, ви зв'яжете окремий напрям у цілісну мережу.
 
-## AI 编程篇
+## Програмування з AI
 
-AI 编程是 2026 年面试新增的高频方向，考的不是"你会不会用 Cursor"，而是**你能不能在 AI 时代体现工程价值**。
+Програмування з AI — новий частий напрям співбесід 2026 року, і перевіряють тут не «чи вмієте ви Cursor», а **чи здатні ви показати інженерну цінність у добу AI**.
 
-- [Vibe Coding大厂面试题汇总](./vibe_coding_interview.md) — AI编程时代核心竞争力、Token成本控制
-- [Vibe Coding避坑指南](./vibe_coding_backup_engineering.md) — Git提交、数据库备份、模块拆分、线上回滚怎么避免翻车
-- [Claude Code大厂面试题汇总](./claude_code_deep_dive.md) — 源码泄露、Agent Loop、系统提示词全拆解
-- [AI增强开发三件套面试详解](./ai_enhanced_development_openspec_superpowers_gstack.md) — OpenSpec、Superpowers、gstack如何把Vibe Coding拉回工程交付
-- [Spec-Driven Development规约驱动开发详解](./spec_driven_development_interview.md) — AI编程为什么要从模糊Prompt走向规格、计划、任务与验证
-- [Claude Code为什么不用RAG检索代码](./claude_code_grep_rag_interview.md) — Grep、Glob、Read、子Agent与代码检索设计哲学
-- [Claude Code上下文窗口面试详解](./claude_code_context_window_interview.md) — Auto-Compact、上下文压缩、任务状态快照与Agent记忆管理
+- [Збірка питань про Vibe Coding](./vibe_coding_interview.md) — ключова конкурентна перевага в добу програмування з AI, контроль вартості токенів
+- [Vibe Coding: як не наламати дров](./vibe_coding_backup_engineering.md) — коміти в Git, резервні копії бази, поділ на модулі, відкат у продакшні
+- [Збірка питань про Claude Code](./claude_code_deep_dive.md) — витік вихідного коду, цикл агента, повний розбір системного промпта
+- [Три інструменти AI-посиленої розробки](./ai_enhanced_development_openspec_superpowers_gstack.md) — як OpenSpec, Superpowers і gstack повертають Vibe Coding до інженерної поставки
+- [Spec-Driven Development: розробка за специфікацією](./spec_driven_development_interview.md) — чому програмування з AI переходить від розмитих промптів до специфікацій, планів, задач і перевірки
+- [Чому Claude Code не шукає код через RAG](./claude_code_grep_rag_interview.md) — Grep, Glob, Read, субагенти й філософія пошуку коду
+- [Контекстне вікно Claude Code](./claude_code_context_window_interview.md) — Auto-Compact, стиснення контексту, знімки стану задачі й керування пам'яттю агента
 
-## RAG 检索增强篇
+## RAG
 
-RAG 已经是大模型岗的**必考项**，从向量检索原理到生产落地难点，面试官会一层层往下挖。
+RAG уже є **обов'язковою темою** на позиціях із великими моделями: від принципів векторного пошуку до складнощів продакшну інтерв'юер копає шар за шаром.
 
-- [RAG大厂面试题汇总](./rag_interview.md) — 向量检索、混合检索、Rerank、幻觉处理
-- [RAG落地最难的地方在哪](./rag_hardest_parts_interview.md) — 文档预处理、召回质量、生成忠实度，三个环节级联放大
-- [GraphRAG与LightRAG大厂面试题汇总](./graphrag_interview.md) — 从RAG到知识图谱检索，传统RAG天花板与轻量方案
+- [Збірка питань про RAG](./rag_interview.md) — векторний пошук, гібридний пошук, rerank, робота з галюцинаціями
+- [Де RAG найважче впровадити](./rag_hardest_parts_interview.md) — попередня обробка документів, якість відбору кандидатів, вірність генерації: три ланки, що підсилюють помилки каскадом
+- [Збірка питань про GraphRAG і LightRAG](./graphrag_interview.md) — від RAG до пошуку за графом знань: стеля класичного RAG і легкі рішення
 
-## 模型微调篇
+## Донавчання моделей
 
-- [SFT、RLHF、DPO面试详解](./finetuning_sft_rlhf_interview.md) — 微调价值、Prompt/RAG取舍、基模变强后的工程判断
+- [SFT, RLHF, DPO: детальний розбір](./finetuning_sft_rlhf_interview.md) — цінність донавчання, вибір між промптом і RAG, інженерне судження після появи сильніших базових моделей
 
-## Agent 智能体篇
+## Агенти
 
-Agent 是大模型岗最大的考察块，从 ReAct、Function Calling、MCP 这些基础协议，到多 Agent 编排、Harness 治理、幻觉控制、成本优化，越往生产走越难。
+Агенти — найбільший блок на співбесідах про великі моделі: від базових протоколів ReAct, Function Calling і MCP до оркестрації кількох агентів, керування harness, контролю галюцинацій та оптимізації вартості. Що ближче до продакшну, то складніше.
 
-- [Agent大厂面试题汇总](./agent_interview.md) — ReAct、Function Calling、MCP、RAG高频问题
-- [Loop详解：从ReAct到Loop Engineering](./loop_engineering_interview.md) — Agent到底在循环什么，上下文/状态/预算/工具/终止五类治理
-- [Graph Engineering与Agent图编排详解](./graph_engineering_interview.md) — 节点、边、状态、检查点、并行与人工审批，别和GraphRAG混淆
-- [Harness Engineering大厂面试题汇总](./harness_interview.md) — 从Prompt到Context到Harness，Hermes Agent与OpenClaw对比
-- [生产级Agent全景面试详解](./production_agent_architecture_harness_org_talent.md) — 从Demo到生产，串起系统架构、Harness工程、组织协作与人才能力
-- [多Agent通信与编排面试详解](./multi_agent_communication_interview.md) — 主Agent子Agent通信、编排模式、Tool取舍与工程代价
-- [Multi-Agent Harness面试详解](./multi_agent_harness_interview.md) — 编排调度、工具治理、状态记忆、轨迹评估与成本控制
-- [Agent Harness可观测性面试详解](./agent_harness_observability_interview.md) — Trace轨迹、工具调用、上下文、成本与评测闭环
-- [Agent Skill面试详解](./agent_skill_interview.md) — Skill复用、上下文治理、版本管理、评估指标与生产落地
-- [Agent框架横评：OpenClaw、Hermes Agent、Claude Code](./agent_framework_comparison.md) — 记忆机制、工具调用、上下文管理面试对比
-- [Agent混合路由优化详解](./agent_hybrid_routing_interview.md) — 规则路由、模型路由、混合路由，级联降级怎么避坑
-- [Agent漂移与幻觉怎么解](./agent_drift_hallucination_interview.md) — 任务漂移、上下文幻觉、注意力稀释的识别与应对
-- [Agent系统如何约束大模型幻觉](./agent_hallucination_control_interview.md) — Prompt、工具、证据、输出校验与幻觉兜底处理
+- [Збірка питань про агентів](./agent_interview.md) — ReAct, Function Calling, MCP, RAG
+- [Цикл детально: від ReAct до Loop Engineering](./loop_engineering_interview.md) — що саме крутиться в циклі агента й п'ять напрямів керування: контекст, стан, бюджет, інструменти, завершення
+- [Graph Engineering і графова оркестрація агентів](./graph_engineering_interview.md) — вузли, ребра, стан, контрольні точки, паралельність і людське погодження; не плутати з GraphRAG
+- [Збірка питань про Harness Engineering](./harness_interview.md) — від промпта до контексту й harness, порівняння Hermes Agent і OpenClaw
+- [Панорама продакшн-агентів](./production_agent_architecture_harness_org_talent.md) — від демо до продакшну: архітектура системи, інженерія harness, співпраця в організації та потрібні компетенції
+- [Комунікація й оркестрація кількох агентів](./multi_agent_communication_interview.md) — зв'язок головного агента з субагентами, патерни оркестрації, вибір інструментів та інженерна ціна
+- [Multi-Agent Harness](./multi_agent_harness_interview.md) — оркестрація й планування, керування інструментами, стан і пам'ять, оцінювання траєкторій і контроль вартості
+- [Спостережуваність Agent Harness](./agent_harness_observability_interview.md) — трасування, виклики інструментів, контекст, вартість і замкнений цикл оцінювання
+- [Agent Skill](./agent_skill_interview.md) — перевикористання скілів, керування контекстом, версіювання, метрики оцінювання й впровадження в продакшні
+- [Порівняння фреймворків: OpenClaw, Hermes Agent, Claude Code](./agent_framework_comparison.md) — механізми пам'яті, виклик інструментів, керування контекстом
+- [Оптимізація гібридної маршрутизації агентів](./agent_hybrid_routing_interview.md) — маршрутизація за правилами, моделлю та гібридна; як не наламати дров із каскадним пониженням
+- [Як розв'язувати дрейф і галюцинації агентів](./agent_drift_hallucination_interview.md) — дрейф задачі, галюцинації контексту, розмивання уваги: як розпізнати й що робити
+- [Як агентна система стримує галюцинації моделі](./agent_hallucination_control_interview.md) — промпт, інструменти, докази, валідація виводу й запобіжники
 
-## Transformer 原理篇
+## Transformer
 
-- [Transformer大厂面试题汇总：应用开发者视角](./transformer_interview.md) — Self-Attention、位置编码、三大架构选择、O(n²)复杂度
+- [Збірка питань про Transformer: погляд прикладного розробника](./transformer_interview.md) — self-attention, позиційне кодування, вибір між трьома архітектурами, складність O(n²)
 
-## 真实面经
+## Реальні розповіді про співбесіди
 
-- [字节Agent开发四面面经](./20260506bytedance.md) — 21道大模型面试题全解析，从Prompt到Agent到MCP
-- [字节番茄小说Agent应用开发实习一面](./bytedance_fanqie_agent_intern_interview.md) — ES混合检索、三层记忆、DAG编排、Token治理、QKV与算法题现场回答
+- [Чотири раунди співбесіди на розробку агентів у ByteDance](./20260506bytedance.md) — повний розбір 21 питання: від промпта до агентів і MCP
+- [Перший раунд співбесіди на стажування з розробки агентів у Tomato Novel (ByteDance)](./bytedance_fanqie_agent_intern_interview.md) — гібридний пошук в ES, тришарова пам'ять, оркестрація DAG, керування токенами, QKV і задача з алгоритмів наживо
 
-## 大模型面试常见问题
+## Часті питання про співбесіди з великих моделей
 
-**大模型面试一般考什么？**
-主要五块：[Transformer 原理](./transformer_interview.md)（Self-Attention、架构选择）、[RAG 检索增强](./rag_interview.md)（向量检索、Rerank、幻觉）、[Agent 智能体](./agent_interview.md)（ReAct、Function Calling、MCP）、[模型微调](./finetuning_sft_rlhf_interview.md)（SFT、RLHF、DPO）、以及 [AI 编程能力](./vibe_coding_interview.md)。应用开发岗更偏 RAG 和 Agent 工程，算法岗更偏 Transformer 和微调原理。
+**Що зазвичай питають на співбесіді про великі моделі?**
+Здебільшого п'ять блоків: [принципи Transformer](./transformer_interview.md) (self-attention, вибір архітектури), [RAG](./rag_interview.md) (векторний пошук, rerank, галюцинації), [агенти](./agent_interview.md) (ReAct, Function Calling, MCP), [донавчання](./finetuning_sft_rlhf_interview.md) (SFT, RLHF, DPO) і [програмування з AI](./vibe_coding_interview.md). На прикладних позиціях більше ваги мають інженерія RAG та агентів, на алгоритмічних — Transformer і принципи донавчання.
 
-**没有大模型项目经验，怎么准备 Agent / 大模型岗面试？**
-先把原理和回答思路吃透，再用一个小项目把链路跑通。面试官不一定要求你做过大厂级系统，但会追问细节——比如 RAG 的 Chunk 怎么切、Agent 的工具调用怎么兜底。可以对照[字节 Agent 开发四面面经](./20260506bytedance.md)看考察范围，再看[番茄小说 Agent 应用开发一面](./bytedance_fanqie_agent_intern_interview.md)学习怎么回答项目指标、Agent 边界和 Token 治理。
+**Як готуватися до співбесіди на агентну чи LLM-позицію без досвіду в таких проєктах?**
+Спершу засвойте принципи й логіку відповідей, а потім проженіть увесь ланцюжок на невеликому власному проєкті. Інтерв'юер не обов'язково вимагатиме досвіду систем рівня великої компанії, але питатиме про деталі: як ви ріжете чанки в RAG, що робите, коли виклик інструмента агентом провалився. Обсяг тем можна звірити з [чотирма раундами співбесіди в ByteDance](./20260506bytedance.md), а [перший раунд у Tomato Novel](./bytedance_fanqie_agent_intern_interview.md) показує, як говорити про метрики проєкту, межі агента й керування токенами.
 
-**RAG 和微调，面试时该重点准备哪个？**
-大部分应用开发岗 RAG 的权重更高，因为落地场景多。微调更多考"什么时候该微调、和 RAG/Prompt 怎么取舍"。两者的边界判断见 [SFT、RLHF、DPO 面试详解](./finetuning_sft_rlhf_interview.md)。
+**Що готувати ретельніше — RAG чи донавчання?**
+На більшості прикладних позицій вага RAG вища, бо сценаріїв упровадження більше. Донавчання частіше перевіряють у формі «коли варто донавчати і як обирати між ним, RAG і промптом». Про цю межу — у [детальному розборі SFT, RLHF, DPO](./finetuning_sft_rlhf_interview.md).
 
-**Agent 面试高频考点有哪些？**
-ReAct 循环、Function Calling 原理、MCP 协议、记忆系统、幻觉与漂移控制、多 Agent 编排、成本优化。基础看 [Agent 大厂面试题汇总](./agent_interview.md)，循环本身怎么工程化看 [从 ReAct 到 Loop Engineering](./loop_engineering_interview.md)，生产全景看 [生产级 Agent 架构、Harness、组织与人才](./production_agent_architecture_harness_org_talent.md)，专项治理再看 [Harness Engineering 面试题](./harness_interview.md) 和 [Multi-Agent Harness 面试详解](./multi_agent_harness_interview.md)。
+**Які теми про агентів питають найчастіше?**
+Цикл ReAct, принципи Function Calling, протокол MCP, система пам'яті, контроль галюцинацій і дрейфу, оркестрація кількох агентів, оптимізація вартості. Основи — у [збірці питань про агентів](./agent_interview.md), інженерія самого циклу — у [від ReAct до Loop Engineering](./loop_engineering_interview.md), панорама продакшну — у [архітектурі, harness, організації та компетенціях](./production_agent_architecture_harness_org_talent.md), а спеціалізоване керування — у [Harness Engineering](./harness_interview.md) і [Multi-Agent Harness](./multi_agent_harness_interview.md).
 
-**AI 都能写代码了，AI 编程岗面试还看什么？**
-看的是你能不能让 AI 写得更对、更稳、更可控——上下文构建、Token 成本控制、代码审查、工程纪律。详见 [Vibe Coding 大厂面试题汇总](./vibe_coding_interview.md)、[Vibe Coding 避坑指南](./vibe_coding_backup_engineering.md) 和 [AI 增强开发三件套面试详解](./ai_enhanced_development_openspec_superpowers_gstack.md)。
+**AI вже пише код — що ж тоді перевіряють на співбесідах із програмування з AI?**
+Те, чи вмієте ви змусити AI писати правильніше, стабільніше й керованіше: побудова контексту, контроль вартості токенів, рев'ю коду, інженерна дисципліна. Докладніше — у [збірці питань про Vibe Coding](./vibe_coding_interview.md), [Vibe Coding: як не наламати дров](./vibe_coding_backup_engineering.md) і [трьох інструментах AI-посиленої розробки](./ai_enhanced_development_openspec_superpowers_gstack.md).
 
-## 推荐阅读
+## Рекомендуємо також
 
-- [Java 面经汇总](../java/)
-- [C++ 面经汇总](../cpp/)
-- [大模型专栏](../../llm/)
+- [Розділ про великі моделі](../../llm/)
 
-> 面经的价值，不在于"背答案"，而在于理解面试官的考察逻辑。每篇都附回答思路，看完能直接在面试中说出来。
+> Цінність розповідей про співбесіди не в тому, щоб «вивчити відповідь», а в тому, щоб зрозуміти логіку інтерв'юера. Наприкінці кожної статті є підхід до відповіді, який можна одразу проговорити на співбесіді.
