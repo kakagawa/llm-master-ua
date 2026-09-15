@@ -20,10 +20,10 @@ node tools/check.mjs docs/llm/app # тільки одна тека
 | `docs/llm/intro/` | 12 | 12 | ✅ готово |
 | `docs/llm/transformer/` | 15 | 15 | ✅ готово |
 | `docs/llm/app/` | 39 | 39 | ✅ готово |
-| `docs/llm/claude/` | 15 | 10 | |
+| `docs/llm/claude/` | 15 | 11 | |
 | `docs/interview/llm/` | 28 | 0 | |
 | `docs/README.md` | 1 | 0 | ⚠️ робити **останнім** — це індекс на всі статті |
-| **Разом** | **123** | **87** | |
+| **Разом** | **123** | **88** | |
 
 ## Порядок
 
