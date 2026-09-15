@@ -1,62 +1,62 @@
 ---
-title: Claude学习专栏：Claude Code从入门到工程实践完整教程|适合小白
-description: Claude与Claude Code中文学习专栏，从高效使用、CLAUDE.md、Skills、Subagents、Hooks、MCP和Prompt Cache，到Agent Loop、动态工作流、大代码库与生产级Agent工程实践，帮助开发者系统掌握Claude Code。
-keywords: [Claude教程, Claude Code教程, Claude Code入门, CLAUDE.md, Claude Skills, Subagents, Hooks, MCP, Prompt Cache, Agent Loop, AI编程]
-tags: [Claude, Claude Code, AI编程, Agent]
+title: "Розділ про Claude: повний курс Claude Code від першого запуску до інженерної практики"
+description: Україномовний розділ про Claude і Claude Code — від ефективного використання, CLAUDE.md, Skills, субагентів, Hooks, MCP і Prompt Cache до циклу агента, динамічних робочих процесів, великих кодових баз та інженерної практики продакшн-рівня. Щоб системно опанувати Claude Code.
+keywords: ["туторіал Claude", "туторіал Claude Code", "Claude Code для початківців", "CLAUDE.md", "Claude Skills", "субагенти", "Hooks", "MCP", "Prompt Cache", "цикл агента", "програмування з AI"]
+tags: ["Claude", "Claude Code", "програмування з AI", "агенти"]
 pageMeta: false
 ---
 
-# Claude学习专栏
+# Розділ про Claude
 
-> 从会用 Claude Code，到能把它接进真实工程。
+> Від «вмію користуватися Claude Code» до «вмію вбудувати його в реальну інженерію».
 
-很多人第一次用 Claude Code，只把它当成终端里的聊天框：问一句，改一段，出错了再补一句。
+Багато хто, вперше запустивши Claude Code, сприймає його просто як чат у терміналі: спитав — щось виправилося, помилка — дописав ще репліку.
 
-这样当然能用，但只用到了最浅的一层。
+Так теж можна, але це лише найповерховіший шар.
 
-Claude Code 真正的价值，是把项目规则、上下文管理、工具调用、测试验证和多 Agent 协作串成一个可以持续运行的工程闭环。
+Справжня цінність Claude Code в тому, щоб зв'язати правила проєкту, керування контекстом, виклик інструментів, перевірку тестами й співпрацю кількох агентів у інженерний цикл, який може працювати безперервно.
 
-这个专栏不按功能列表堆文章，而是沿着一条学习路线讲清楚：**先知道 Claude Code 能做什么，再理解它为什么这样工作，最后把能力沉淀成团队可复用的工程资产。**
+Цей розділ не нагромаджує статті за списком можливостей, а веде однією лінією навчання: **спершу дізнатися, що Claude Code уміє, потім зрозуміти, чому він працює саме так, і врешті перетворити ці вміння на інженерний актив, придатний для повторного використання командою.**
 
-## 第一阶段：先把 Claude Code 用明白
+## Етап 1: навчитися користуватися Claude Code
 
-先建立完整能力地图，避免一上来就在 Skills、Hooks、MCP 之间来回试错。
+Спершу побудуйте повну карту можливостей, щоб не тицятися навмання між Skills, Hooks і MCP.
 
-- [Claude Code高效使用指南：5件事把它调教成一个会自己干活的团队](./claude_code_efficient_guide.md)
-- [Claude Code完整使用指南：CLAUDE.md、Skills、Subagents、MCP、Hooks、Plugins怎么用](./claude_code_toolkit_guide.md)
-- [CLAUDE.md到底怎么写？项目记忆、团队规范和上下文管理一篇讲明白](./claude_md.md)
+- [Ефективне використання Claude Code: 5 речей, які перетворять його на команду, що працює сама](./claude_code_efficient_guide.md)
+- [Повний посібник із Claude Code: як користуватися CLAUDE.md, Skills, субагентами, MCP, Hooks і плагінами](./claude_code_toolkit_guide.md)
+- [Як усе-таки писати CLAUDE.md: пам'ять проєкту, командні домовленості й керування контекстом](./claude_md.md)
 
-## 第二阶段：理解上下文和代码库
+## Етап 2: зрозуміти контекст і кодову базу
 
-Claude Code 不是把整个仓库塞进上下文。它需要搜索、读取、压缩和缓存，也需要你给它清楚的项目入口。
+Claude Code не запихає весь репозиторій у контекст. Йому потрібно шукати, читати, стискати й кешувати, а ще потрібна ваша чітка точка входу в проєкт.
 
-- [Claude Code怎么读懂大代码库？Agent搜索、CLAUDE.md、Hooks、Skills、MCP和LSP一篇讲明白](./claude_code_large_codebase.md)
-- [Claude Code为什么快？Prompt Cache、Plan Mode、MCP工具加载和上下文压缩一篇讲明白](./claude_prompt_cache.md)
-- [为什么Agent时代大家都在做CLI？Claude Code、Codex与命令行的前世今生](./agent_cli.md)
+- [Як Claude Code розуміє велику кодову базу: агентський пошук, CLAUDE.md, Hooks, Skills, MCP і LSP](./claude_code_large_codebase.md)
+- [Чому Claude Code швидкий: Prompt Cache, режим планування, завантаження інструментів MCP і стиснення контексту](./claude_prompt_cache.md)
+- [Чому в добу агентів усі роблять CLI: Claude Code, Codex і історія командного рядка](./agent_cli.md)
 
-## 第三阶段：从Prompt走向Agent Loop
+## Етап 3: від промпта до циклу агента
 
-当任务从“一次回答”变成“读取代码、执行修改、检查结果、继续修正”，重点就不再是某一句 Prompt，而是整个闭环能不能稳定运行。
+Коли задача з «однієї відповіді» перетворюється на «прочитати код, внести зміни, перевірити результат, продовжити виправлення», головним стає вже не окремий промпт, а те, чи стабільно працює весь цикл.
 
-- [Claude Code作者说“不写Prompt，写Loop”：AI编程从提示词到Agent闭环到底变了什么](./claude_code_loop.md)
-- [深入理解Claude Code：从CLAUDE.md到Hooks、Skills、Subagents](./claude_code_extensions_evolution.md)
-- [Claude Skills实战：Anthropic几百个Skill总结出的9大分类和实战经验](./claude_skills.md)
-- [Claude Code动态工作流详解：让Claude自己现写一套harness](./dynamic_workflows.md)
-- [Loop Engineering实战：14步路线图，从判断要不要做到上线后守住](./loop_engineering_guide.md)
+- [Автор Claude Code каже «пишіть не промпти, а цикли»: що насправді змінилося в програмуванні з AI](./claude_code_loop.md)
+- [Глибше про Claude Code: від CLAUDE.md до Hooks, Skills і субагентів](./claude_code_extensions_evolution.md)
+- [Claude Skills на практиці: 9 категорій і досвід, виведені з кількох сотень скілів Anthropic](./claude_skills.md)
+- [Динамічні робочі процеси Claude Code: як дати Claude самому написати harness](./dynamic_workflows.md)
+- [Loop Engineering на практиці: дорожня карта з 14 кроків — від рішення «чи робити» до підтримки після запуску](./loop_engineering_guide.md)
 
-## 第四阶段：团队与生产工程
+## Етап 4: команда й продакшн-інженерія
 
-最后再看规模化问题：怎么拆任务、怎么隔离执行环境、怎么验证迁移结果，以及怎样让 Agent 真正进入生产系统。
+Наостанок — питання масштабу: як ділити задачі, як ізолювати середовища виконання, як перевіряти результати міграції і як довести агента до справжньої продакшн-системи.
 
-- [百万行代码两周迁完：Anthropic如何用Claude Code做大规模代码迁移](./ai_code_migration.md)
-- [Claude Managed Agents详解：把Agent的“大脑”和“双手”拆开](./managed_agents.md)
+- [Мільйон рядків коду за два тижні: як Anthropic робила масштабну міграцію коду за допомогою Claude Code](./ai_code_migration.md)
+- [Claude Managed Agents: як розділити «мозок» і «руки» агента](./managed_agents.md)
 
-## 第五阶段：看清AI编程真正改变了什么
+## Етап 5: побачити, що саме змінило програмування з AI
 
-工具会继续变，但人和Agent怎么分工、什么能力会变得更值钱，是更长期的问题。
+Інструменти й далі змінюватимуться, але питання, як розподіляються ролі між людиною й агентом і які вміння дорожчають, лишається надовго.
 
-- [40万次Claude Code会话揭示：真正拉开差距的不是Prompt](./claude_code_400k_sessions.md)
+- [400 тисяч сесій Claude Code показали: різницю створює не промпт](./claude_code_400k_sessions.md)
 
-如果你刚开始用 Claude Code，从第一阶段按顺序看就够了。
+Якщо ви тільки починаєте працювати з Claude Code, досить читати з першого етапу по порядку.
 
-如果你已经在项目里使用，可以直接从自己卡住的位置进入：规则总失效看 CLAUDE.md，仓库太大看大代码库，任务跑不稳看 Agent Loop，需要并行和隔离再看动态工作流与 Managed Agents。
+Якщо ви вже застосовуєте його в проєкті, заходьте одразу туди, де застрягли: правила постійно не спрацьовують — читайте про CLAUDE.md, репозиторій завеликий — про великі кодові бази, задача працює нестабільно — про цикл агента, потрібні паралельність та ізоляція — про динамічні робочі процеси й Managed Agents.
