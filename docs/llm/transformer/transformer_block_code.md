@@ -1,42 +1,45 @@
 ---
-title: 手撕Transformer Block：把Attention、FFN、Norm拼起来
-description: 手撕Transformer Block代码实现，将Multi-Head Attention、FFN、LayerNorm、残差连接和Dropout等组件组装成一个完整Block，逐步理解Block内部数据流转、维度变化和前向计算逻辑，适合Transformer源码学习和大模型面试手撕代码。
-keywords: [手撕Transformer Block, Transformer Block代码, Transformer组件组装, 面试手撕代码, Transformer面试题]
-tags: [Transformer, 手撕代码, 面试]
+title: "Пишемо Transformer Block з нуля: складаємо докупи attention, FFN і Norm"
+description: Реалізація Transformer Block власноруч. Збираємо multi-head attention, FFN, LayerNorm, залишкові з'єднання та інші компоненти в один повний блок і крок за кроком розбираємо рух даних усередині, зміну розмірностей і логіку прямого проходу. Придатне для вивчення вихідного коду Transformer і написання коду на співбесіді.
+keywords: [написати Transformer Block з нуля, код Transformer Block, складання компонентів Transformer, код на співбесіді, питання про Transformer]
+tags: [Transformer, код з нуля, співбесіда]
 ---
 
-# 手撕Transformer Block：把Attention、FFN、Norm拼起来
+# Пишемо Transformer Block з нуля: складаємо докупи attention, FFN і Norm
 
-前面几篇文章，我们已经把 Transformer Block 里的核心零件基本都手撕了一遍：
+У попередніх статтях ми вже написали власноруч усі ключові деталі Transformer Block:
 
-- Multi-Head Attention：让不同 Token 之间互相交流
-- FFN：让每个 Token 独立做非线性加工
-- 残差连接：把原始输入加回来，防止信息丢失
-- LayerNorm：把数值拉回稳定范围
+- **Multi-head attention:** дає токенам обмінюватися інформацією між собою
+- **FFN:** дає кожному токену незалежно виконати нелінійну обробку
+- **Залишкові з'єднання:** повертають початковий вхід, щоб інформація не губилася
+- **LayerNorm:** утримує значення в стабільному діапазоні
 
-这一篇，我们不再单独看零件，而是把它们真正拼起来，写出一个**最小版 Transformer Block**。
+Тепер ми не розглядаємо деталі окремо, а справді складаємо їх разом і пишемо **мінімальну версію Transformer Block**.
+
+> Код у цій статті друкує лише розмірності тензорів. Усі вони однозначно визначаються
+> параметрами `L=7`, `d_model=8`, `num_heads=2`, `d_ff=32`.
 
 ---
 
-## 一个 Block 到底长什么样？
+## Який вигляд має один Block?
 
-最常见的 Transformer Block 可以写成：
+Найпоширеніший Transformer Block записується так:
 
 ```text
-输入 x
+вхід x
   ↓
 Multi-Head Attention
   ↓
-残差连接 + LayerNorm
+залишкове з'єднання + LayerNorm
   ↓
 FFN
   ↓
-残差连接 + LayerNorm
+залишкове з'єднання + LayerNorm
   ↓
-输出
+вихід
 ```
 
-也就是：
+Тобто:
 
 $$
 x_1 = \text{LayerNorm}(x + \text{MHA}(x))
@@ -46,34 +49,34 @@ $$
 x_2 = \text{LayerNorm}(x_1 + \text{FFN}(x_1))
 $$
 
-这里有一个非常重要的点：
+Тут є надзвичайно важливий момент:
 
-> **输入是什么形状，输出还是什么形状。**
+> **Якої форми вхід — такої самої форми й вихід.**
 
-假设输入是：
+Припустімо, вхід такий:
 
 ```text
 x.shape = (L, d_model)
 ```
 
-其中：
+де:
 
-- L 是序列长度，比如“远方有颗苹果树”有 7 个 token
-- d_model 是每个 token 的向量维度，比如这里用 8 维演示
+- L — довжина послідовності; наприклад, у «Удалині росте яблуня» 7 токенів
+- d_model — розмірність вектора кожного токена; тут для демонстрації 8 вимірів
 
-那么经过一个 Transformer Block 后，输出仍然是：
+Тоді після одного Transformer Block вихід лишається:
 
 ```text
 output.shape = (L, d_model)
 ```
 
-这也是为什么 Transformer 可以一层一层往上堆。
+Саме тому Transformer можна нашаровувати шар за шаром.
 
-![Transformer Block代码结构示意图](https://file1.kamacoder.com/i/algo/article14_0425_p1.png)
+![Схема структури коду Transformer Block](https://file1.kamacoder.com/i/algo/article14_0425_p1.png)
 
-## 先写 LayerNorm 和 FFN
+## Спершу пишемо LayerNorm і FFN
 
-我们先把最基础的组件准备好。
+Підготуймо найбазовіші компоненти.
 
 ```python
 import numpy as np
@@ -91,11 +94,11 @@ class LayerNorm:
         return self.gamma * x_norm + self.beta
 ```
 
-LayerNorm 做的事很简单：对每个 Token 自己的向量做归一化。
+LayerNorm робить дуже просту річ: нормалізує вектор кожного токена окремо.
 
-比如输入是 `(7, 8)`，表示 7 个 token，每个 token 8 维，那么 LayerNorm 会分别对这 7 行做归一化。
+Скажімо, вхід має форму `(7, 8)`, тобто 7 токенів по 8 вимірів кожен, — LayerNorm нормалізує ці 7 рядків окремо один від одного.
 
-接着写 FFN：
+Далі пишемо FFN:
 
 ```python
 class FeedForward:
@@ -117,23 +120,23 @@ class FeedForward:
         return output
 ```
 
-FFN 的过程就是：
+Процес FFN такий:
 
 ```text
 (L, d_model)
-   ↓ 升维
+   ↓ підвищення розмірності
 (L, d_ff)
    ↓ GELU
 (L, d_ff)
-   ↓ 降维
+   ↓ зниження розмірності
 (L, d_model)
 ```
 
-还是那句话：**中间怎么变都可以，但最后必须回到 d_model。**
+Знову те саме правило: **посередині може відбуватися що завгодно, але наприкінці треба повернутися до d_model.**
 
-## 写 Multi-Head Attention
+## Пишемо Multi-Head Attention
 
-现在写一个最小版多头注意力。
+Тепер напишемо мінімальну версію багатоголової уваги.
 
 ```python
 class MultiHeadAttention:
@@ -183,26 +186,26 @@ class MultiHeadAttention:
         return output
 ```
 
-这里最容易绕的还是 shape：
+Найлегше заплутатися тут саме у формах:
 
 ```text
-输入 x:              (L, d_model)
-Q/K/V:               (L, d_model)
-拆成多个头:          (num_heads, L, d_k)
-每个头输出:          (L, d_k)
-拼接回来:            (L, d_model)
-输出投影后:          (L, d_model)
+вхід x:                  (L, d_model)
+Q/K/V:                   (L, d_model)
+розбиття на голови:      (num_heads, L, d_k)
+вихід кожної голови:     (L, d_k)
+склеювання назад:        (L, d_model)
+після вихідної проєкції: (L, d_model)
 ```
 
-可以看到，Attention 虽然中间拆成多个头，但最后依然回到原来的形状。
+Як бачимо, хоч attention і розбивається посередині на кілька голів, наприкінці все одно повертається до початкової форми.
 
-![Transformer Block前向传播输出示意图](https://file1.kamacoder.com/i/algo/article14_0425_p2.png)
+![Схема виводу прямого проходу Transformer Block](https://file1.kamacoder.com/i/algo/article14_0425_p2.png)
 
 ---
 
-## 定义完整 Transformer Block
+## Визначаємо повний Transformer Block
 
-现在核心来了。
+Тепер найголовніше.
 
 ```python
 class TransformerBlock:
@@ -214,50 +217,50 @@ class TransformerBlock:
         self.norm2 = LayerNorm(d_model)
 
     def forward(self, x):
-        print(f"输入 x:              {x.shape}")
+        print(f"Вхід x:                {x.shape}")
 
         attn_out = self.attn.forward(x)
-        print(f"Attention 输出:      {attn_out.shape}")
+        print(f"Вихід Attention:       {attn_out.shape}")
 
         x = self.norm1.forward(x + attn_out)
-        print(f"Add & Norm 之后:     {x.shape}")
+        print(f"Після Add & Norm:      {x.shape}")
 
         ffn_out = self.ffn.forward(x)
-        print(f"FFN 输出:            {ffn_out.shape}")
+        print(f"Вихід FFN:             {ffn_out.shape}")
 
         x = self.norm2.forward(x + ffn_out)
-        print(f"Block 最终输出:      {x.shape}")
+        print(f"Підсумковий вихід:     {x.shape}")
 
         return x
 ```
 
-这就是一个最小版 Transformer Block。
+Це і є мінімальна версія Transformer Block.
 
-注意这里用了 Post-Norm 写法：
+Зверніть увагу, що тут використано запис Post-Norm:
 
 ```python
 x = norm(x + sublayer(x))
 ```
 
-也就是先经过子层，再残差相加，最后 LayerNorm。
+Тобто спершу проходимо підшар, потім залишкове додавання, і наостанок LayerNorm.
 
-现代很多大模型会使用 Pre-Norm：
+Багато сучасних великих моделей використовують Pre-Norm:
 
 ```python
 x = x + sublayer(norm(x))
 ```
 
-但为了和原始 Transformer 结构更一致，也为了方便初学者理解，这里先用 Post-Norm。
+Але щоб ближче відповідати структурі оригінального Transformer і щоб початківцям було зрозуміліше, тут спершу беремо Post-Norm.
 
 ---
 
-## 跑通一个 toy example
+## Проганяємо іграшковий приклад
 
-我们继续用熟悉的句子：
+Далі беремо вже знайоме речення:
 
-> 远方有颗苹果树
+> Удалині росте яблуня
 
-假设它被切成 7 个 token，每个 token 用 8 维向量表示。
+Припустімо, що воно розбите на 7 токенів, і кожен подано восьмивимірним вектором.
 
 ```python
 if __name__ == "__main__":
@@ -278,61 +281,61 @@ if __name__ == "__main__":
 
     output = block.forward(x)
 
-    print("\n=== 检查结果 ===")
-    print("输入形状:", x.shape)
-    print("输出形状:", output.shape)
-    print("形状一致:", x.shape == output.shape)
+    print("\n=== Перевірка результату ===")
+    print("Форма входу:", x.shape)
+    print("Форма виходу:", output.shape)
+    print("Форми збігаються:", x.shape == output.shape)
 ```
 
-运行输出大概是：
+Вивід під час запуску приблизно такий:
 
 ```text
-输入 x:              (7, 8)
-Attention 输出:      (7, 8)
-Add & Norm 之后:     (7, 8)
-FFN 输出:            (7, 8)
-Block 最终输出:      (7, 8)
+Вхід x:                (7, 8)
+Вихід Attention:       (7, 8)
+Після Add & Norm:      (7, 8)
+Вихід FFN:             (7, 8)
+Підсумковий вихід:     (7, 8)
 
-=== 检查结果 ===
-输入形状: (7, 8)
-输出形状: (7, 8)
-形状一致: True
+=== Перевірка результату ===
+Форма входу: (7, 8)
+Форма виходу: (7, 8)
+Форми збігаються: True
 ```
 
-这说明我们的最小版 Transformer Block 已经跑通了。
+Це означає, що наша мінімальна версія Transformer Block запрацювала.
 
-从输入到输出，形状始终保持 `(7, 8)`。
+Від входу до виходу форма незмінно лишається `(7, 8)`.
 
-但是注意：**形状没变，不代表内容没变。**
+Але зверніть увагу: **форма не змінилася — це не означає, що не змінився вміст.**
 
-经过 Attention 之后，每个 Token 已经融合了其他 Token 的上下文信息。
+Після attention кожен токен уже містить контекстну інформацію інших токенів.
 
-经过 FFN 之后，每个 Token 又单独做了一次非线性加工。
+Після FFN кожен токен окремо пройшов ще одну нелінійну обробку.
 
-再加上残差连接和 LayerNorm，整个 Block 就既能表达复杂语义，又能保持训练稳定。
+Додайте до цього залишкові з'єднання й LayerNorm — і весь Block здатен і виражати складний зміст, і зберігати стабільність навчання.
 
 ---
 
-## 总结
+## Підсумок
 
-一个 Transformer Block 本质上就是：
+Один Transformer Block по суті робить ось що:
 
 ```text
-先让 Token 之间交流，
-再让每个 Token 自己思考，
-每一步都用残差保留原信息，
-再用 LayerNorm 稳定数值。
+спершу дає токенам обмінятися інформацією,
+потім дає кожному токену подумати самому,
+на кожному кроці зберігає початкову інформацію залишковим з'єднанням,
+а потім стабілізує значення через LayerNorm.
 ```
 
-如果再压缩成代码，就是这两行：
+Якщо стиснути це до коду, вийде два рядки:
 
 ```python
 x = norm1(x + attention(x))
 x = norm2(x + ffn(x))
 ```
 
-这就是 Transformer Block 的核心。
+Оце і є суть Transformer Block.
 
-看起来简单，但大模型就是把这样的 Block 堆几十层、上百层，再配上海量数据和算力训练出来的。
+Виглядає просто, але великі моделі саме такі блоки й нашаровують — десятками й сотнями шарів, — а потім навчають на величезних даних і обчислювальних потужностях.
 
-下一篇文章将继续带大家**从 0 拼一个 Tiny Transformer**，大家可以点个关注不迷路哦~
+У наступній статті **зберемо Tiny Transformer з нуля**.
