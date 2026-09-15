@@ -7,6 +7,9 @@ tags: [Transformer, код з нуля, співбесіда]
 
 # Пишемо Multi-Head Attention з нуля: від однієї голови до багатьох
 
+> 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
+> [`code/transformer/multi_head_attention.py`](../../../code/transformer/multi_head_attention.py). Потрібен лише numpy.
+
 У попередній статті ми з нуля реалізували найбазовіший attention і пройшли повний шлях Q, K, V → softmax → зважене підсумовування.
 
 Тепер розширимо **одноголовий attention до multi-head attention**, напишемо це рядок за рядком і на кожному кроці друкуватимемо shape для перевірки.

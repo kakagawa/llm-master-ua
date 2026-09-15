@@ -7,6 +7,9 @@ tags: [Transformer, код з нуля, співбесіда]
 
 # Пишемо Tiny Transformer з нуля: збираємо повну модель
 
+> 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
+> [`code/transformer/tiny_transformer.py`](../../../code/transformer/tiny_transformer.py). Потрібен лише numpy.
+
 У попередніх статтях ми окремо написали власноруч attention, multi-head attention, FFN, залишкові з'єднання, LayerNorm і цілий Transformer Block.
 
 Але досі це були лише окремі деталі.

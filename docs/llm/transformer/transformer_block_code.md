@@ -7,6 +7,9 @@ tags: [Transformer, код з нуля, співбесіда]
 
 # Пишемо Transformer Block з нуля: складаємо докупи attention, FFN і Norm
 
+> 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
+> [`code/transformer/transformer_block.py`](../../../code/transformer/transformer_block.py). Потрібен лише numpy.
+
 У попередніх статтях ми вже написали власноруч усі ключові деталі Transformer Block:
 
 - **Multi-head attention:** дає токенам обмінюватися інформацією між собою
