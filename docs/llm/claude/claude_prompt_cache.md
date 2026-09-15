@@ -102,7 +102,7 @@ Prompt Cache розв'язує саме це:
 
 А так: від самого початку запиту неперервний відрізок вмісту має бути ідентичним — лише тоді буде влучання в кеш.
 
-![Влучання в Prompt Cache залежить від неперервного збігу префікса запиту](https://file1.kamacoder.com/i/web/20260601095801_claude_prompt_cache_01_prefix_layers_compressed.png)
+![Влучання в Prompt Cache залежить від неперервного збігу префікса запиту](../../assets/web/20260601095801_claude_prompt_cache_01_prefix_layers_compressed.png)
 
 Тому Claude Code організовує запит дуже ретельно:
 
@@ -156,7 +156,7 @@ Prompt Cache розв'язує саме це:
 
 Усі ці зміни виглядають дрібними.
 
-![Розрив у префіксі Prompt Cache знецінює весь подальший кеш](https://file1.kamacoder.com/i/web/20260601095803_claude_prompt_cache_02_cache_breakers_compressed.png)
+![Розрив у префіксі Prompt Cache знецінює весь подальший кеш](../../assets/web/20260601095803_claude_prompt_cache_02_cache_breakers_compressed.png)
 
 Але з погляду кешу це забруднення префікса.
 
@@ -238,7 +238,7 @@ Claude Code робить розумніше:
 
 А й для стабільності кешу.
 
-![Динамічну інформацію слід дописувати в кінець повідомлень, а не правити стабільний префікс](https://file1.kamacoder.com/i/web/20260601095805_claude_prompt_cache_03_dynamic_messages_compressed.png)
+![Динамічну інформацію слід дописувати в кінець повідомлень, а не правити стабільний префікс](../../assets/web/20260601095805_claude_prompt_cache_03_dynamic_messages_compressed.png)
 
 ## 4. Не перемикайте модель посеред сесії — може вийти дорожче
 
@@ -292,7 +292,7 @@ Claude Code робить розумніше:
 
 Але не змушуйте стовбур зривати весь свій кеш заради дрібної задачі.
 
-![Перемикання моделі посеред довгої сесії втрачає кеш попередньої моделі](https://file1.kamacoder.com/i/web/20260601095807_claude_prompt_cache_04_model_switch_compressed.png)
+![Перемикання моделі посеред довгої сесії втрачає кеш попередньої моделі](../../assets/web/20260601095807_claude_prompt_cache_04_model_switch_compressed.png)
 
 ## 5. Чому режим планування не можна зробити «вилученням інструментів запису»?
 
@@ -320,7 +320,7 @@ Claude Code робить розумніше:
 
 Дуже збитково.
 
-![Головне в режимі планування — тримати визначення інструментів стабільними, дописуючи лише стан режиму](https://file1.kamacoder.com/i/web/20260601095808_claude_prompt_cache_05_plan_mode_compressed.png)
+![Головне в режимі планування — тримати визначення інструментів стабільними, дописуючи лише стан режиму](../../assets/web/20260601095808_claude_prompt_cache_05_plan_mode_compressed.png)
 
 Рішення Claude Code цікавіше.
 
@@ -396,7 +396,7 @@ GitHub — один.
 
 Тож підхід Claude Code — не «динамічно прибирати інструменти», а «відкладено завантажувати їхні деталі».
 
-![Коли інструментів MCP багато, використовують стабільний каталог інструментів і завантаження схем на вимогу](https://file1.kamacoder.com/i/web/20260601095810_claude_prompt_cache_06_deferred_tools_compressed.png)
+![Коли інструментів MCP багато, використовують стабільний каталог інструментів і завантаження схем на вимогу](../../assets/web/20260601095810_claude_prompt_cache_06_deferred_tools_compressed.png)
 
 У стабільному префіксі можна тримати легкі заглушки.
 
@@ -470,7 +470,7 @@ GitHub — один.
 
 Claude Code робить розгалуження, дружнє до кешу.
 
-![Стиснення контексту має перевикористовувати префікс батьківської сесії, дописуючи інструкцію compact](https://file1.kamacoder.com/i/web/20260601095811_claude_prompt_cache_07_compaction_fork_compressed.png)
+![Стиснення контексту має перевикористовувати префікс батьківської сесії, дописуючи інструкцію compact](../../assets/web/20260601095811_claude_prompt_cache_07_compaction_fork_compressed.png)
 
 Під час стиснення використовуються той самий системний промпт, той самий контекст користувача, той самий системний контекст і ті самі визначення інструментів, що й у батьківській сесії.
 
@@ -546,7 +546,7 @@ cache creation input tokens: вхідні токени, записані в ке
 
 cache read input tokens: вхідні токени, прочитані з кешу цього раунду.
 
-![Частку влучань у Prompt Cache треба ввести в цикл моніторингу агента](https://file1.kamacoder.com/i/web/20260601095813_claude_prompt_cache_08_cache_metrics_compressed.png)
+![Частку влучань у Prompt Cache треба ввести в цикл моніторингу агента](../../assets/web/20260601095813_claude_prompt_cache_08_cache_metrics_compressed.png)
 
 Якщо read великий, а creation малий — кеш використовується добре.
 

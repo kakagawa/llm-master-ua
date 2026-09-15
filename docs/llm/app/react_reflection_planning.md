@@ -31,7 +31,7 @@ tags: ["застосунки на LLM", "AI Agent", "проєктування а
 
 Головне тут не завчити поняття, а зрозуміти: **у якому сценарії який підхід і чому інтерв'юери так люблять питати саме про ReAct.**
 
-![Три поширені підходи до агентів: ReAct, Reflection, планування з виконанням](https://file1.kamacoder.com/i/web/20260515181732_react_reflection_01_three_patterns_overview_compressed.png)
+![Три поширені підходи до агентів: ReAct, Reflection, планування з виконанням](../../assets/web/20260515181732_react_reflection_01_three_patterns_overview_compressed.png)
 
 ## 1. Спершу не терміни: агент за своєю суттю є циклом
 
@@ -125,7 +125,7 @@ ReAct — найкласичніший підхід до агентів.
 
 Можна лише перевірити крок, подивитися й вирішити, що далі.
 
-![ReAct: кожен наступний крок визначається результатом спостереження](https://file1.kamacoder.com/i/web/20260515181733_react_reflection_02_react_loop_compressed.png)
+![ReAct: кожен наступний крок визначається результатом спостереження](../../assets/web/20260515181733_react_reflection_02_react_loop_compressed.png)
 
 ## 3. Чому інтерв'юери найбільше люблять питати про ReAct
 
@@ -256,7 +256,7 @@ Reflection може поставити перед видачею ворота:
 
 Не сприймайте його як магічне побажання.
 
-![Reflection: не самозамилування моделі, а додаткові ворота перевірки](https://file1.kamacoder.com/i/web/20260515181734_react_reflection_03_reflection_gate_compressed.png)
+![Reflection: не самозамилування моделі, а додаткові ворота перевірки](../../assets/web/20260515181734_react_reflection_03_reflection_gate_compressed.png)
 
 ## 6. Планування з виконанням: спершу розкласти задачу, потім просуватися
 
@@ -331,7 +331,7 @@ Reflection може поставити перед видачею ворота:
 
 Бо в ній ідеться про реальне впровадження.
 
-![Планування з виконанням: план не зашитий намертво, а є оновлюваним переліком задач](https://file1.kamacoder.com/i/web/20260515181736_react_reflection_04_plan_execute_replan_compressed.png)
+![Планування з виконанням: план не зашитий намертво, а є оновлюваним переліком задач](../../assets/web/20260515181736_react_reflection_04_plan_execute_replan_compressed.png)
 
 ## 8. Як же обирати з трьох підходів
 
@@ -348,7 +348,7 @@ Reflection може поставити перед видачею ворота:
 | Задача складна, кроків багато, легко збитися | Планування з виконанням | спершу розкласти задачу, щоб не розбігтися на старті |
 | Зміни коду, аналіз даних, пошук причин збою | Комбінація | спершу план, посередині ReAct, перед видачею Reflection |
 
-![Як обирати між ReAct, Reflection і плануванням з виконанням](https://file1.kamacoder.com/i/web/20260515181738_react_reflection_05_selection_matrix_compressed.png)
+![Як обирати між ReAct, Reflection і плануванням з виконанням](../../assets/web/20260515181738_react_reflection_05_selection_matrix_compressed.png)
 
 Наведімо реалістичніший приклад.
 

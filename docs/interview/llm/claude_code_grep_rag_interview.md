@@ -111,7 +111,7 @@ tags: ["співбесіда про Claude Code", "співбесіда про �
 
 Це процес слідства в коді, який сам змінює стратегію пошуку.
 
-![Пошук коду розв'язує задачі символів, входів, ланцюжків викликів і актуального стану](https://file1.kamacoder.com/i/web/20260523142701_claude_grep_01_code_search_problem_compressed.png)
+![Пошук коду розв'язує задачі символів, входів, ланцюжків викликів і актуального стану](../../assets/web/20260523142701_claude_grep_01_code_search_problem_compressed.png)
 
 ## 2. Пошук коду й пошук документів — узагалі різні задачі
 
@@ -240,7 +240,7 @@ tags: ["співбесіда про Claude Code", "співбесіда про �
 
 **семантична подібність є перевагою, але точний збіг є базовою вимогою.**
 
-![Різниця між векторним відбором схожих функцій і точним влучанням grep](https://file1.kamacoder.com/i/web/20260523142710_claude_grep_07_exact_vs_vector_compressed.png)
+![Різниця між векторним відбором схожих функцій і точним влучанням grep](../../assets/web/20260523142710_claude_grep_07_exact_vs_vector_compressed.png)
 
 Без цієї базової вимоги що більше знайдено, то більший безлад.
 
@@ -268,7 +268,7 @@ tags: ["співбесіда про Claude Code", "співбесіда про �
 
 Проблеми узгодженості кешу тут немає взагалі.
 
-![Різниця між застарілим індексом RAG і читанням диска в реальному часі](https://file1.kamacoder.com/i/web/20260523142712_claude_grep_08_index_stale_compressed.png)
+![Різниця між застарілим індексом RAG і читанням диска в реальному часі](../../assets/web/20260523142712_claude_grep_08_index_stale_compressed.png)
 
 ### 3.4. Top-K — це разова ставка, а агентові треба дивитися по ходу
 
@@ -302,7 +302,7 @@ tags: ["співбесіда про Claude Code", "співбесіда про �
 
 Для написання коду потрібне друге.
 
-![Chunking у RAG розрізає структуру функцій](https://file1.kamacoder.com/i/web/20260523142703_claude_grep_02_rag_pain_points_compressed.png)
+![Chunking у RAG розрізає структуру функцій](../../assets/web/20260523142703_claude_grep_02_rag_pain_points_compressed.png)
 
 ## 4. Чому Claude Code розділив пошук на три інструменти
 
@@ -354,7 +354,7 @@ tags: ["співбесіда про Claude Code", "співбесіда про �
 
 Оце й є інженерія.
 
-![Межі прав і контроль виводу спеціалізованого Grep порівняно з універсальним Bash](https://file1.kamacoder.com/i/web/20260523142714_claude_grep_10_controlled_tool_compressed.png)
+![Межі прав і контроль виводу спеціалізованого Grep порівняно з універсальним Bash](../../assets/web/20260523142714_claude_grep_10_controlled_tool_compressed.png)
 
 ## 5. Grep — не просто grep, а керований інструмент пошуку коду
 
@@ -438,7 +438,7 @@ Grep у парі з Glob дозволяє моделі поступово зву
 
 Це ближче до реальної розробки, ніж один Top-K.
 
-![Три інструменти — Glob, Grep, Read — поступово звужують контекст коду](https://file1.kamacoder.com/i/web/20260523142705_claude_grep_03_tool_triad_compressed.png)
+![Три інструменти — Glob, Grep, Read — поступово звужують контекст коду](../../assets/web/20260523142705_claude_grep_03_tool_triad_compressed.png)
 
 ## 6. Glob і Read розв'язують «вхід у файли» й «межі контексту»
 
@@ -519,7 +519,7 @@ Claude Code майже напевно не почне одразу писати 
 
 Оце і є агент.
 
-![Траєкторія пошуку коду в задачі додавання капчі до логіну](https://file1.kamacoder.com/i/web/20260523142713_claude_grep_09_login_trace_compressed.png)
+![Траєкторія пошуку коду в задачі додавання капчі до логіну](../../assets/web/20260523142713_claude_grep_09_login_trace_compressed.png)
 
 ## 7. Справді ключовим є багатораундовий цикл, а не окремий інструмент
 
@@ -577,7 +577,7 @@ Claude Code майже напевно не почне одразу писати 
 
 Цю фразу можна прямо нести на співбесіду.
 
-![Різниця між разовим Top-K у RAG і багатораундовим пошуком агентом](https://file1.kamacoder.com/i/web/20260523142706_claude_grep_04_agent_loop_vs_rag_compressed.png)
+![Різниця між разовим Top-K у RAG і багатораундовим пошуком агентом](../../assets/web/20260523142706_claude_grep_04_agent_loop_vs_rag_compressed.png)
 
 ## 8. Субагенти: винести процес дослідження назовні
 
@@ -671,7 +671,7 @@ Claude Code майже напевно не почне одразу писати 
 
 Це дуже інженерна відповідь.
 
-![Субагент ізолює шум пошуку й повертає головному агентові стислий висновок](https://file1.kamacoder.com/i/web/20260523142707_claude_grep_05_subagent_isolation_compressed.png)
+![Субагент ізолює шум пошуку й повертає головному агентові стислий висновок](../../assets/web/20260523142707_claude_grep_05_subagent_isolation_compressed.png)
 
 ## 9. У підходу з grep теж є межі: коли RAG усе ще цінний
 
@@ -769,7 +769,7 @@ RAG може нести довгострокові знання.
 
 Це і є судження зрілого архітектора.
 
-![Схема вибору між grep, RAG і гібридним пошуком](https://file1.kamacoder.com/i/web/20260523142709_claude_grep_06_when_to_use_what_compressed.png)
+![Схема вибору між grep, RAG і гібридним пошуком](../../assets/web/20260523142709_claude_grep_06_when_to_use_what_compressed.png)
 
 ## 10. Як відповідати на співбесіді
 

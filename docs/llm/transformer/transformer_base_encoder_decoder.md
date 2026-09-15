@@ -15,7 +15,7 @@ tags: ["Transformer", "порівняння архітектур"]
 
 Матриця уваги тут обчислюється двонаправлено: кожен токен бачить усю інформацію контексту. Погляньмо, як приблизно виглядає матриця уваги, на прикладі речення «Удалині росте яблуня»:
 
-![Схема архітектури Encoder-only](https://file1.kamacoder.com/i/algo/ff1a7b94-d7a5-45fc-a80b-a5bc9b80cdb9.webp)
+![Схема архітектури Encoder-only](../../assets/algo/ff1a7b94-d7a5-45fc-a80b-a5bc9b80cdb9.webp)
 
 ## 2. Архітектура Decoder-only
 
@@ -37,7 +37,7 @@ tags: ["Transformer", "порівняння архітектур"]
 
 Якщо намалювати матрицю уваги, то в поширеному записі закрита частина зазвичай виглядає як верхній трикутник:
 
-![Схема архітектури Decoder-only](https://file1.kamacoder.com/i/algo/2240fcb5-44c5-4fdb-877c-13139e1da48e.webp)
+![Схема архітектури Decoder-only](../../assets/algo/2240fcb5-44c5-4fdb-877c-13139e1da48e.webp)
 
 ## 3. Архітектура Encoder-Decoder
 
@@ -50,7 +50,7 @@ tags: ["Transformer", "порівняння архітектур"]
   1. **Masked self-attention** — для роботи з уже згенерованим перекладом.
   2. **Cross-attention** — для витягування ключової інформації з «оригіналу», який видав енкодер.
 
-![Схема архітектури Encoder-Decoder](https://file1.kamacoder.com/i/algo/03f4f341-dd49-44ae-8dfc-afb3d93d79ed.webp)
+![Схема архітектури Encoder-Decoder](../../assets/algo/03f4f341-dd49-44ae-8dfc-afb3d93d79ed.webp)
 
 ## Головні відмінності між трьома архітектурами
 

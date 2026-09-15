@@ -36,7 +36,7 @@ $$
 
 Тут $F(x)$ — перетворення, якого навчився цей шар (наприклад, результат self-attention), а $x$ — початковий вхід цього шару.
 
-![Схема розташування залишкових з'єднань і LayerNorm у Transformer](https://file1.kamacoder.com/i/algo/761ac78d-7af3-4822-a21f-20af8e55b54d.webp)
+![Схема розташування залишкових з'єднань і LayerNorm у Transformer](../../assets/algo/761ac78d-7af3-4822-a21f-20af8e55b54d.webp)
 
 Це додавання дає дві переваги.
 
@@ -74,7 +74,7 @@ $$
 
 Спершу залишкове додавання, потім нормалізація LayerNorm. Така конструкція стоїть після кожного підмодуля — і після self-attention, і після FFN.
 
-![Схема структури мережі прямого поширення FFN у Transformer](https://file1.kamacoder.com/i/algo/a7c59854-ed2d-4e0b-8c20-5fb9c8134955.webp)
+![Схема структури мережі прямого поширення FFN у Transformer](../../assets/algo/a7c59854-ed2d-4e0b-8c20-5fb9c8134955.webp)
 
 ## FFN: не прикраса, а напарник self-attention
 

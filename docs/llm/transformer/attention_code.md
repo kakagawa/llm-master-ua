@@ -225,8 +225,6 @@ print("Сума кожного рядка:", np.sum(attention_weights, axis=-1))
 Сума кожного рядка: [1. 1. 1. 1. 1. 1. 1.]
 ```
 
-![Візуалізація матриці ваг attention](https://files.mdnice.com/user/181970/attention-weights.png)
-
 **Що означає ця матриця:**
 
 - кожен рядок — це розподіл імовірностей із сумою 1
@@ -257,8 +255,6 @@ print("\nПерші 3 токени виходу:\n", output[:3, :])
  [ 0.14097516 -0.1270494   2.02312685 -0.98066495]
  [ 0.21920909 -0.4141671   2.21629904 -0.55498662]]
 ```
-
-![Візуалізація вихідних векторів attention](https://files.mdnice.com/user/181970/attention-output.png)
 
 **Зверніть увагу:**
 
@@ -306,7 +302,6 @@ def scaled_dot_product_attention(Q, K, V):
     print(f"Крок 4 - підсумковий вихід: {output.shape}")
 
     return output, attention_weights
-
 
 # Приклад використання
 if __name__ == "__main__":

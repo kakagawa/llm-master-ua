@@ -21,11 +21,11 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 **«Я більше не пишу промптів. Я пишу цикли.»**
 
-![](https://file1.kamacoder.com/i/web/2026-06-09_11-33-20.jpg)
+![](../../assets/web/2026-06-09_11-33-20.jpg)
 
 Повне відео інтерв'ю легко знайти в мережі.
 
-![](https://file1.kamacoder.com/i/web/2026-06-09_11-35-50.jpg)
+![](../../assets/web/2026-06-09_11-35-50.jpg)
 
 Раніше багато хто вважав, що ключова навичка програмування з AI — «як написати розумніший промпт».
 
@@ -33,7 +33,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Про це сьогодні й поговоримо.
 
-![Перехід парадигми програмування з AI від промпта до циклу](https://file1.kamacoder.com/i/web/20260609100829_claude_code_loop_01_prompt_to_loop_compressed.png)
+![Перехід парадигми програмування з AI від промпта до циклу](../../assets/web/20260609100829_claude_code_loop_01_prompt_to_loop_compressed.png)
 
 ## 1. Чому самих промптів уже мало?
 
@@ -116,7 +116,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Оце і є цикл.
 
-![Мінімальна структура замкненого циклу агента](https://file1.kamacoder.com/i/web/20260609100830_claude_code_loop_02_minimal_loop_compressed.png)
+![Мінімальна структура замкненого циклу агента](../../assets/web/20260609100830_claude_code_loop_02_minimal_loop_compressed.png)
 
 Як бачите, від звичайного промпта це відрізняється сильно.
 
@@ -174,7 +174,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 А фантазія призводить до біди.
 
-![Різні траєкторії поганого й доброго циклу](https://file1.kamacoder.com/i/web/20260609100832_claude_code_loop_03_bad_vs_good_loop_compressed.png)
+![Різні траєкторії поганого й доброго циклу](../../assets/web/20260609100832_claude_code_loop_03_bad_vs_good_loop_compressed.png)
 
 Добрий цикл мусить мати щонайменше чотири речі:
 
@@ -241,7 +241,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Це радше інженерна спроможність.
 
-![Порівняння меж компетенцій в інженерії промптів та інженерії циклів](https://file1.kamacoder.com/i/web/20260609100834_claude_code_loop_04_prompt_vs_loop_engineering_compressed.png)
+![Порівняння меж компетенцій в інженерії промптів та інженерії циклів](../../assets/web/20260609100834_claude_code_loop_04_prompt_vs_loop_engineering_compressed.png)
 
 Приклад.
 
@@ -304,7 +304,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Якщо тести пройшли — завершує зміни й віддає вам результат.
 
-![Робочий процес Claude Code як цикл агента: від читання коду до перевірки результату](https://file1.kamacoder.com/i/web/20260609100836_claude_code_loop_05_claude_code_workflow_compressed.png)
+![Робочий процес Claude Code як цикл агента: від читання коду до перевірки результату](../../assets/web/20260609100836_claude_code_loop_05_claude_code_workflow_compressed.png)
 
 На вигляд це «AI сам собі працює».
 
@@ -350,7 +350,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 **Відчуття завершеності в AI не дорівнює завершеності в інженерії.**
 
-![Чому програмування з AI без зворотного зв'язку легко дає лише позірну завершеність](https://file1.kamacoder.com/i/web/20260609100838_claude_code_loop_06_validation_failure_compressed.png)
+![Чому програмування з AI без зворотного зв'язку легко дає лише позірну завершеність](../../assets/web/20260609100838_claude_code_loop_06_validation_failure_compressed.png)
 
 У реальному проєкті ми судимо про готовність зміни не за красою пояснення.
 
@@ -401,7 +401,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Тобто перетворити «людина пильнує людину» на «система обмежує».
 
-![Зміна ролі розробника: від нагляду за AI до проєктування циклу з правил](https://file1.kamacoder.com/i/web/20260609100839_claude_code_loop_07_human_role_shift_compressed.png)
+![Зміна ролі розробника: від нагляду за AI до проєктування циклу з правил](../../assets/web/20260609100839_claude_code_loop_07_human_role_shift_compressed.png)
 
 Наприклад, раніше ви повторювали:
 
@@ -458,7 +458,7 @@ tags: ["Claude Code", "програмування з AI", "цикл агента
 
 Усе це разом і є кістяком циклу.
 
-![Новий поділ праці між людиною, агентом, моделлю й інструментами в добу програмування з AI](https://file1.kamacoder.com/i/web/20260609100841_claude_code_loop_08_new_division_compressed.png)
+![Новий поділ праці між людиною, агентом, моделлю й інструментами в добу програмування з AI](../../assets/web/20260609100841_claude_code_loop_08_new_division_compressed.png)
 
 Модель відповідає за генерацію.
 

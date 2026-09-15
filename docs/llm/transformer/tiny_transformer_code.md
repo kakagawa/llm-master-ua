@@ -34,7 +34,7 @@ Token ID
 
 Ключова зміна лише одна: спочатку на вході цілочислові Token ID, які після embedding стають векторами, а далі всі модулі працюють з тією самою матрицею `(L, d_model)`.
 
-![Схема коду повної структури Tiny Transformer](https://file1.kamacoder.com/i/algo/article14_0428_p1.drawio.png)
+![Схема коду повної структури Tiny Transformer](../../assets/algo/article14_0428_p1.drawio.png)
 
 ## Крок 1: Embedding
 
@@ -150,7 +150,7 @@ print(x.shape)  # (4, 8)
 
 Два шари, шість чи дванадцять — це по суті повторення тієї самої структури. Доки форма входу й виходу кожного шару збігається, їх можна приєднувати далі й далі.
 
-![Результат прямого проходу Tiny Transformer](https://file1.kamacoder.com/i/algo/article14_0428_p2.drawio.png)
+![Результат прямого проходу Tiny Transformer](../../assets/algo/article14_0428_p2.drawio.png)
 
 ## Крок 5: вихідний шар
 

@@ -36,7 +36,7 @@ Function Calling додає цьому розумному «мозку» «ру�
 
 Процес Function Calling умовно ділиться на 4 кроки:
 
-![Процес роботи Function Calling](https://file1.kamacoder.com/i/web/20260512163402_fc01.png)
+![Процес роботи Function Calling](../../assets/web/20260512163402_fc01.png)
 
 **Крок 1: розробник описує й надає інструменти (functions)**
 

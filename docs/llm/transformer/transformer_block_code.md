@@ -72,7 +72,7 @@ output.shape = (L, d_model)
 
 Саме тому Transformer можна нашаровувати шар за шаром.
 
-![Схема структури коду Transformer Block](https://file1.kamacoder.com/i/algo/article14_0425_p1.png)
+![Схема структури коду Transformer Block](../../assets/algo/article14_0425_p1.png)
 
 ## Спершу пишемо LayerNorm і FFN
 
@@ -199,7 +199,7 @@ Q/K/V:                   (L, d_model)
 
 Як бачимо, хоч attention і розбивається посередині на кілька голів, наприкінці все одно повертається до початкової форми.
 
-![Схема виводу прямого проходу Transformer Block](https://file1.kamacoder.com/i/algo/article14_0425_p2.png)
+![Схема виводу прямого проходу Transformer Block](../../assets/algo/article14_0425_p2.png)
 
 ---
 

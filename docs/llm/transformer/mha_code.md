@@ -88,7 +88,7 @@ V: (7, 8)
 Форми Q, K, V — усі `(L, d_model)`, так само як в одноголовому варіанті.
 **Різниця в наступному кроці: одноголовий одразу рахує attention, а багатоголовий спершу «розрізає».**
 
-![Вивід коду: обчислення по головах у Multi-Head Attention](https://file1.kamacoder.com/i/algo/article11_419_p1.png)
+![Вивід коду: обчислення по головах у Multi-Head Attention](../../assets/algo/article11_419_p1.png)
 
 ## Крок 2: розбиття на голови — ділимо d_model на h частин
 
@@ -141,7 +141,7 @@ V_heads: (2, 7, 4)
 
 Тепер нульова й перша голови можуть **незалежно й паралельно виконувати обчислення attention**.
 
-![Вивід коду: склеювання голів у Multi-Head Attention](https://file1.kamacoder.com/i/algo/article11_419_p2.png)
+![Вивід коду: склеювання голів у Multi-Head Attention](../../assets/algo/article11_419_p2.png)
 
 ## Крок 3: кожна голова незалежно виконує attention
 
