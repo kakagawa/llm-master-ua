@@ -1,70 +1,73 @@
 ---
-title: 手撕Multi-Head Attention：从单头扩展到多头
-description: 手撕Multi-Head Attention代码实现，从单头注意力扩展到多头注意力，完整拆解QKV线性投影、head维度拆分、并行注意力计算、拼接合并、输出投影和张量维度变化过程，帮助理解Transformer核心组件和大模型面试手撕MHA代码。
-keywords: [手撕Multi-Head Attention, MHA代码实现, 多头注意力代码, Transformer代码, 面试手撕代码, Transformer面试题]
-tags: [Transformer, 手撕代码, 面试]
+title: "Пишемо Multi-Head Attention з нуля: від однієї голови до багатьох"
+description: Реалізація multi-head attention власноруч — розширення одноголової уваги до багатоголової. Повний розбір лінійної проєкції QKV, розбиття на голови, паралельного обчислення уваги, склеювання, вихідної проєкції та зміни розмірностей тензорів. Допомагає зрозуміти ключовий компонент Transformer і написати MHA на співбесіді.
+keywords: [написати Multi-Head Attention з нуля, реалізація MHA, код багатоголової уваги, код Transformer, код на співбесіді, питання про Transformer]
+tags: [Transformer, код з нуля, співбесіда]
 ---
 
-# 手撕Multi-Head Attention：从单头扩展到多头
+# Пишемо Multi-Head Attention з нуля: від однієї голови до багатьох
 
-上一篇文章我们从零实现了最基础的 Attention，走完了 Q、K、V → Softmax → 加权求和的完整流程。
+У попередній статті ми з нуля реалізували найбазовіший attention і пройшли повний шлях Q, K, V → softmax → зважене підсумовування.
 
-这篇文章我们把**单头 Attention 扩展成 Multi-Head Attention，**一行一行写出来，每一步都打印 shape 验证。
+Тепер розширимо **одноголовий attention до multi-head attention**, напишемо це рядок за рядком і на кожному кроці друкуватимемо shape для перевірки.
 
-如果你还记得上篇的结论——单头 Attention 的问题是"视角太单一"，一次计算只能关注一种语义关系。多头的解法是把维度切开，让多个头并行各司其职。
+Якщо ви пам'ятаєте висновок попередньої статті: проблема одноголового attention у надто однобокому погляді — за одне обчислення він здатен стежити лише за одним типом змістового зв'язку. Розв'язання з кількома головами полягає в тому, щоб розрізати розмірність і дати кільком головам працювати паралельно, кожній над своїм.
 
-现在我们就把这个过程真正"手撕"出来。
+Тепер напишемо цей процес власноруч.
+
+> У цій статті код друкує лише розмірності тензорів, без числових значень,
+> тож усі виводи нижче однозначно визначаються параметрами `L=7`, `d_model=8`, `h=2`.
 
 ---
 
-## 多头比单头多了哪几步？
+## Чим багато голів відрізняються від однієї?
 
-单头 Attention 的流程是：
+Процес одноголового attention такий:
 
 ```
-X → (W_Q, W_K, W_V) → Q, K, V → Attention → 输出
+X → (W_Q, W_K, W_V) → Q, K, V → Attention → вихід
 ```
 
-Multi-Head Attention 只多了三步：
+У multi-head attention додається лише три речі:
 
 ```
 X → (W_Q, W_K, W_V) → Q, K, V
-  → 拆分成 h 个头（reshape）
-  → 每个头独立跑 Attention
-  → 拼接（concat）
-  → 乘输出投影矩阵 W_O
-  → 最终输出
+  → розбиття на h голів (reshape)
+  → кожна голова незалежно виконує Attention
+  → склеювання (concat)
+  → множення на вихідну проєкційну матрицю W_O
+  → підсумковий вихід
 ```
 
-就这四个新动作：**拆分 → 并行计算 → 拼接 → 输出投影**。
+Тобто чотири нові дії: **розбиття → паралельне обчислення → склеювання → вихідна проєкція**.
 
 ---
 
-## 第一步：线性层映射，生成 Q、K、V
+## Крок 1: лінійне відображення, отримуємо Q, K, V
 
-这一步和单头完全一样。输入 X 分别乘三个权重矩阵，得到 Q、K、V。
+Цей крок абсолютно такий самий, як в одноголовому варіанті. Вхід X множиться на три матриці ваг, і виходять Q, K, V.
 
 ```python
 import numpy as np
 
-# 超参数设置
-L = 7        # 序列长度（"远方有颗苹果树"，7个字）
-d_model = 8  # embedding 维度（实际是512，这里用8方便演示）
-h = 2        # 注意力头数（实际常用8或16）
-d_k = d_model // h  # 每个头的维度 = 8 // 2 = 4
+# Налаштування гіперпараметрів
+L = 7        # довжина послідовності («Удалині росте яблуня», 7 токенів)
+d_model = 8  # розмірність embedding (насправді 512, тут 8 для наочності)
+h = 2        # кількість голів уваги (зазвичай 8 або 16)
+d_k = d_model // h  # розмірність однієї голови = 8 // 2 = 4
 
 np.random.seed(42)
 
-# 模拟 embedding 后的输入
+# Імітуємо вхід після embedding
 X = np.random.randn(L, d_model)
-print(f"输入 X: {X.shape}")  # (7, 8)
+print(f"Вхід X: {X.shape}")  # (7, 8)
 
-# 三个权重矩阵（实际中是可学习参数）
+# Три матриці ваг (у реальності це навчані параметри)
 W_Q = np.random.randn(d_model, d_model)
 W_K = np.random.randn(d_model, d_model)
 W_V = np.random.randn(d_model, d_model)
 
-# 线性映射，得到 Q、K、V
+# Лінійне відображення, отримуємо Q, K, V
 Q = X @ W_Q   # (7, 8) @ (8, 8) = (7, 8)
 K = X @ W_K
 V = X @ W_V
@@ -74,26 +77,24 @@ print(f"K: {K.shape}")  # (7, 8)
 print(f"V: {V.shape}")  # (7, 8)
 ```
 
-**输出：**
+**Вивід:**
 ```
-输入 X: (7, 8)
+Вхід X: (7, 8)
 Q: (7, 8)
 K: (7, 8)
 V: (7, 8)
 ```
 
-Q、K、V 的形状都是 `(L, d_model)`，和单头完全一样。
-**区别在于下一步：单头直接拿去算 Attention，多头要先把它"切开"。**
+Форми Q, K, V — усі `(L, d_model)`, так само як в одноголовому варіанті.
+**Різниця в наступному кроці: одноголовий одразу рахує attention, а багатоголовий спершу «розрізає».**
 
+![Вивід коду: обчислення по головах у Multi-Head Attention](https://file1.kamacoder.com/i/algo/article11_419_p1.png)
 
-![Multi-Head Attention分头计算代码输出图](https://file1.kamacoder.com/i/algo/article11_419_p1.png)
+## Крок 2: розбиття на голови — ділимо d_model на h частин
 
+Це і є ключова відмінність багатоголового варіанта від одноголового.
 
-## 第二步：Head 拆分——把 d_model 切成 h 份
-
-这是多头和单头最关键的差异所在。
-
-以 $d_model=8、h=2 $为例，每个头拿到$d_k = 8 ÷ 2 = 4$ 维：
+Візьмімо $d_{model}=8$ і $h=2$: кожна голова отримує $d_k = 8 ÷ 2 = 4$ виміри.
 
 ```python
 # reshape: (L, d_model) → (L, h, d_k)
@@ -101,52 +102,50 @@ Q_split = Q.reshape(L, h, d_k)
 K_split = K.reshape(L, h, d_k)
 V_split = V.reshape(L, h, d_k)
 
-print(f"\n拆分后：")
+print(f"\nПісля розбиття:")
 print(f"Q_split: {Q_split.shape}")   # (7, 2, 4)
 print(f"K_split: {K_split.shape}")   # (7, 2, 4)
 print(f"V_split: {V_split.shape}")   # (7, 2, 4)
 
-# 转置为 (h, L, d_k)，方便每个头独立计算
+# Транспонуємо в (h, L, d_k), щоб кожна голова рахувала незалежно
 Q_heads = Q_split.transpose(1, 0, 2)
 K_heads = K_split.transpose(1, 0, 2)
 V_heads = V_split.transpose(1, 0, 2)
 
-print(f"\n转置后（便于并行计算）：")
+print(f"\nПісля транспонування (зручно для паралельних обчислень):")
 print(f"Q_heads: {Q_heads.shape}")  # (2, 7, 4)
 print(f"K_heads: {K_heads.shape}")  # (2, 7, 4)
 print(f"V_heads: {V_heads.shape}")  # (2, 7, 4)
 ```
 
-**输出：**
+**Вивід:**
 ```
-拆分后：
+Після розбиття:
 Q_split: (7, 2, 4)
 K_split: (7, 2, 4)
 V_split: (7, 2, 4)
 
-转置后（便于并行计算）：
+Після транспонування (зручно для паралельних обчислень):
 Q_heads: (2, 7, 4)
 K_heads: (2, 7, 4)
 V_heads: (2, 7, 4)
 ```
 
-**怎么理解这个 reshape？**
+**Як розуміти цей reshape?**
 
-原来的 Q 是 `(7, 8)`，也就是 7 个 token，每个 token 8 维。
+Початкова Q має форму `(7, 8)`: 7 токенів, кожен по 8 вимірів.
 
-拆成 `(7, 2, 4)` 之后，变成：7 个 token，每个 token 有 2 个视角，每个视角 4 维。
+Після розбиття на `(7, 2, 4)` виходить: 7 токенів, у кожного 2 погляди, кожен погляд по 4 виміри.
 
-转置成 `(2, 7, 4)` 之后，变成：2 个头，每个头看 7 个 token，每个 token 4 维。
+Після транспонування в `(2, 7, 4)` виходить: 2 голови, кожна дивиться на 7 токенів, кожен токен по 4 виміри.
 
-这样第 0 个头和第 1 个头就可以**独立并行地做 Attention 计算**了。
+Тепер нульова й перша голови можуть **незалежно й паралельно виконувати обчислення attention**.
 
+![Вивід коду: склеювання голів у Multi-Head Attention](https://file1.kamacoder.com/i/algo/article11_419_p2.png)
 
-![Multi-Head Attention拼接合并代码输出图](https://file1.kamacoder.com/i/algo/article11_419_p2.png)
+## Крок 3: кожна голова незалежно виконує attention
 
-
-## 第三步：每个头独立跑 Attention
-
-拆分好之后，每个头的计算和单头完全一样：QKᵀ → 缩放 → Softmax → 加权 V。
+Після розбиття обчислення в кожній голові абсолютно таке саме, як в одноголовому варіанті: QKᵀ → масштабування → softmax → зважування V.
 
 ```python
 def softmax(x):
@@ -154,121 +153,120 @@ def softmax(x):
     return e / e.sum(axis=-1, keepdims=True)
 
 def single_head_attention(Q, K, V):
-    """单个头的 Attention，输入输出都是 (L, d_k)"""
+    """Attention однієї голови, вхід і вихід мають форму (L, d_k)"""
     d_k = Q.shape[-1]
     scores = Q @ K.T               # (L, L)
-    scores = scores / np.sqrt(d_k) # 缩放
+    scores = scores / np.sqrt(d_k) # масштабування
     weights = softmax(scores)      # (L, L)
     return weights @ V             # (L, d_k)
 
-# 对每个头分别计算
+# Обчислюємо для кожної голови окремо
 head_outputs = []
 for i in range(h):
     out_i = single_head_attention(Q_heads[i], K_heads[i], V_heads[i])
     head_outputs.append(out_i)
-    print(f"Head {i} 输出: {out_i.shape}")  # (7, 4)
+    print(f"Вихід голови {i}: {out_i.shape}")  # (7, 4)
 ```
 
-**输出：**
+**Вивід:**
 ```
-Head 0 输出: (7, 4)
-Head 1 输出: (7, 4)
+Вихід голови 0: (7, 4)
+Вихід голови 1: (7, 4)
 ```
 
-2 个头，每个头输出 `(7, 4)`。注意：**每个头看到的是同一个句子，但是在不同的 4 维子空间里理解它**，所以结果是不同的。
+Дві голови, вихід кожної — `(7, 4)`. Зверніть увагу: **кожна голова бачить те саме речення, але осмислює його у власному чотиривимірному підпросторі**, тому результати різні.
 
+## Крок 4: concat — склеюємо голови назад
 
-## 第四步：Concat 拼接——把多个头合并回来
-
-2 个头算完了，怎么合并？**横向拼接**，沿着最后一个维度 concat。
+Дві голови відпрацювали. Як їх об'єднати? **Склеюванням по горизонталі**, тобто concat уздовж останнього виміру.
 
 ```python
-# 先把 list 转成数组 (h, L, d_k)
+# Спершу перетворюємо list на масив (h, L, d_k)
 head_outputs = np.stack(head_outputs, axis=0)
-print(f"\n拼接前（stack）: {head_outputs.shape}")  # (2, 7, 4)
+print(f"\nПеред склеюванням (stack): {head_outputs.shape}")  # (2, 7, 4)
 
-# 转置回 (L, h, d_k)，再 reshape 成 (L, d_model)
+# Транспонуємо назад у (L, h, d_k), потім reshape у (L, d_model)
 head_outputs = head_outputs.transpose(1, 0, 2)
-print(f"转置后: {head_outputs.shape}")  # (7, 2, 4)
+print(f"Після транспонування: {head_outputs.shape}")  # (7, 2, 4)
 
 concat_output = head_outputs.reshape(L, d_model)
-print(f"拼接后（reshape）: {concat_output.shape}")  # (7, 8)
+print(f"Після склеювання (reshape): {concat_output.shape}")  # (7, 8)
 ```
 
-**输出：**
+**Вивід:**
 ```
-拼接前（stack）: (2, 7, 4)
-转置后: (7, 2, 4)
-拼接后（reshape）: (7, 8)
+Перед склеюванням (stack): (2, 7, 4)
+Після транспонування: (7, 2, 4)
+Після склеювання (reshape): (7, 8)
 ```
 
-两个头各自的 4 维输出拼在一起，重新变回了 8 维。**维度和输入 X 完全一样。**
+Чотиривимірні виходи двох голів склеїлися й знову стали восьмивимірними. **Розмірність повністю збігається з вхідною X.**
 
-## 第五步：输出投影 W_O——让多个头"融合对话"
+## Крок 5: вихідна проєкція W_O — даємо головам «поговорити» між собою
 
-拼接之后，还差最后一步：乘输出投影矩阵 $W_O$。
+Після склеювання лишається останній крок: множення на вихідну проєкційну матрицю $W_O$.
 
 ```python
-# 输出投影矩阵 W_O: (d_model, d_model)
+# Вихідна проєкційна матриця W_O: (d_model, d_model)
 W_O = np.random.randn(d_model, d_model)
 
-# 最终输出
+# Підсумковий вихід
 final_output = concat_output @ W_O
-print(f"\n输出投影后: {final_output.shape}")   # (7, 8)
-print(f"输入 X 形状:  {X.shape}")              # (7, 8)
-print(f"形状是否一致: {final_output.shape == X.shape}")
+print(f"\nПісля вихідної проєкції: {final_output.shape}")   # (7, 8)
+print(f"Форма вхідної X:          {X.shape}")              # (7, 8)
+print(f"Форми збігаються:         {final_output.shape == X.shape}")
 ```
 
-**输出：**
+**Вивід:**
 ```
-输出投影后: (7, 8)
-输入 X 形状:  (7, 8)
-形状是否一致: True
+Після вихідної проєкції: (7, 8)
+Форма вхідної X:          (7, 8)
+Форми збігаються:         True
 ```
 
-**为什么还要乘 W_O？**
+**Навіщо ще множити на W_O?**
 
-Concat 之后，8 维向量的前 4 维来自 Head 0，后 4 维来自 Head 1。它们各自是独立计算的，彼此之间还没有"交流"过。
+Після concat перші 4 виміри восьмивимірного вектора походять з голови 0, а останні 4 — з голови 1. Вони обчислювалися незалежно й між собою ще не «спілкувалися».
 
-$W_O$ 做的事，就是让不同头的信息能够**互相混合**，产生一个统一的表示，传给后续的 FFN 子层。
+Матриця $W_O$ робить саме те, що дозволяє інформації різних голів **перемішатися** й утворити єдине представлення, яке передається далі в підшар FFN.
 
-## 完整代码：把五步打包成一个函数
+## Повний код: пакуємо п'ять кроків в одну функцію
 
 ```python
 import numpy as np
 
 def multi_head_attention(X, W_Q, W_K, W_V, W_O, h):
     """
-    Multi-Head Attention 完整实现
-    
-    参数:
-        X:    输入矩阵, shape (L, d_model)
-        W_Q, W_K, W_V: 线性投影矩阵, shape (d_model, d_model)
-        W_O:  输出投影矩阵, shape (d_model, d_model)
-        h:    注意力头数
-    
-    返回:
+    Повна реалізація Multi-Head Attention
+
+    Параметри:
+        X:    вхідна матриця, shape (L, d_model)
+        W_Q, W_K, W_V: матриці лінійної проєкції, shape (d_model, d_model)
+        W_O:  вихідна проєкційна матриця, shape (d_model, d_model)
+        h:    кількість голів уваги
+
+    Повертає:
         output: shape (L, d_model)
     """
     L, d_model = X.shape
     d_k = d_model // h
 
-    # ① 线性映射
+    # ① Лінійне відображення
     Q = X @ W_Q
     K = X @ W_K
     V = X @ W_V
-    print(f"[①线性映射] Q/K/V: {Q.shape}")
+    print(f"[① лінійне відображення] Q/K/V: {Q.shape}")
 
-    # ② 拆分成 h 个头: (L, d_model) → (h, L, d_k)
+    # ② Розбиття на h голів: (L, d_model) → (h, L, d_k)
     def split_heads(M):
         return M.reshape(L, h, d_k).transpose(1, 0, 2)
 
     Q_h = split_heads(Q)
     K_h = split_heads(K)
     V_h = split_heads(V)
-    print(f"[②Head拆分] Q_h/K_h/V_h: {Q_h.shape}")
+    print(f"[② розбиття на голови] Q_h/K_h/V_h: {Q_h.shape}")
 
-    # ③ 每个头独立计算 Attention
+    # ③ Кожна голова незалежно обчислює Attention
     def softmax(x):
         e = np.exp(x - np.max(x, axis=-1, keepdims=True))
         return e / e.sum(axis=-1, keepdims=True)
@@ -278,20 +276,20 @@ def multi_head_attention(X, W_Q, W_K, W_V, W_O, h):
         scores = Q_h[i] @ K_h[i].T / np.sqrt(d_k)
         attn = softmax(scores) @ V_h[i]
         head_outs.append(attn)
-    print(f"[③并行Attention] 每个head输出: {head_outs[0].shape}")
+    print(f"[③ паралельний Attention] вихід кожної голови: {head_outs[0].shape}")
 
-    # ④ Concat 拼接: (h, L, d_k) → (L, d_model)
+    # ④ Concat: (h, L, d_k) → (L, d_model)
     concat = np.stack(head_outs, axis=0).transpose(1, 0, 2).reshape(L, d_model)
-    print(f"[④Concat拼接] 拼接后: {concat.shape}")
+    print(f"[④ Concat] після склеювання: {concat.shape}")
 
-    # ⑤ 输出投影
+    # ⑤ Вихідна проєкція
     output = concat @ W_O
-    print(f"[⑤输出投影] 最终输出: {output.shape}")
+    print(f"[⑤ вихідна проєкція] підсумковий вихід: {output.shape}")
 
     return output
 
 
-# ——— 运行测试 ———
+# ——— Запуск тесту ———
 if __name__ == "__main__":
     np.random.seed(42)
     L, d_model, h = 7, 8, 2
@@ -304,45 +302,45 @@ if __name__ == "__main__":
 
     print("=== Multi-Head Attention ===")
     out = multi_head_attention(X, W_Q, W_K, W_V, W_O, h)
-    print(f"\n输入形状:  {X.shape}")
-    print(f"输出形状:  {out.shape}")
-    print(f"形状一致:  {X.shape == out.shape}")
+    print(f"\nФорма входу:      {X.shape}")
+    print(f"Форма виходу:     {out.shape}")
+    print(f"Форми збігаються: {X.shape == out.shape}")
 ```
 
-**运行输出：**
+**Вивід під час запуску:**
 ```
 === Multi-Head Attention ===
-[①线性映射] Q/K/V: (7, 8)
-[②Head拆分] Q_h/K_h/V_h: (2, 7, 4)
-[③并行Attention] 每个head输出: (7, 4)
-[④Concat拼接] 拼接后: (7, 8)
-[⑤输出投影] 最终输出: (7, 8)
+[① лінійне відображення] Q/K/V: (7, 8)
+[② розбиття на голови] Q_h/K_h/V_h: (2, 7, 4)
+[③ паралельний Attention] вихід кожної голови: (7, 4)
+[④ Concat] після склеювання: (7, 8)
+[⑤ вихідна проєкція] підсумковий вихід: (7, 8)
 
-输入形状:  (7, 8)
-输出形状:  (7, 8)
-形状一致:  True
+Форма входу:      (7, 8)
+Форма виходу:     (7, 8)
+Форми збігаються: True
 ```
 
 ---
 
-## 五步流程
+## П'ять кроків процесу
 
-| 步骤 | 操作 | 输入形状 | 输出形状 |
+| Крок | Операція | Форма входу | Форма виходу |
 |------|------|----------|----------|
-| ① 线性映射 | X 乘 $W_Q / W_K / W_V$ | $(L, d_model)$ | $(L, d_model)$ |
-| ② Head 拆分 | reshape + transpose |$ (L, d_model) $| $(h, L, d_k)$ |
-| ③ 并行 Attention | 每个头独立跑完整 Attention | $(L, d_k) × h$ | $(L, d_k) × h$ |
-| ④ Concat 拼接 | transpose + reshape | $(h, L, d_k)$ | $(L, d_model)$ |
-| ⑤ 输出投影 | 乘 $W_O$ | ($L, d_model)$ | $(L, d_model)$ |
+| ① Лінійне відображення | X множиться на $W_Q / W_K / W_V$ | $(L, d_{model})$ | $(L, d_{model})$ |
+| ② Розбиття на голови | reshape + transpose | $(L, d_{model})$ | $(h, L, d_k)$ |
+| ③ Паралельний attention | кожна голова виконує повний attention | $(L, d_k) × h$ | $(L, d_k) × h$ |
+| ④ Concat | transpose + reshape | $(h, L, d_k)$ | $(L, d_{model})$ |
+| ⑤ Вихідна проєкція | множення на $W_O$ | $(L, d_{model})$ | $(L, d_{model})$ |
 
-从头到尾，输入是 $(L, d_model)$，输出还是 $(L, d_model)$。中间经历了一次维度的"分家"再"合并"，但整体维度始终保持一致，这也是 Transformer 能一层层堆叠的基础。
+Від початку до кінця вхід має форму $(L, d_{model})$, і вихід теж. Посередині розмірність один раз «розділяється», а потім «зливається» назад, але загальна розмірність лишається сталою — саме це й дозволяє нашаровувати блоки Transformer один на одного.
 
 ---
 
-这篇文章我们把 Multi-Head Attention 的五个步骤完整手撕了一遍，代码加注释不到 60 行。
+У цій статті ми повністю написали власноруч усі п'ять кроків multi-head attention, і разом із коментарями це менше ніж 60 рядків коду.
 
-核心只有一句话：
+Суть одним реченням:
 
-> **多头不是"用更多参数"，而是"用同样的参数，在多个子空间里并行理解语言"。**
+> **Кілька голів — це не «більше параметрів», а «ті самі параметри, які паралельно осмислюють мову в кількох підпросторах».**
 
-下一篇文章，**我们将带大家手撕FFN**，大家可以点个关注不迷路哦～
+У наступній статті **напишемо з нуля FFN**.
