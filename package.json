@@ -1,16 +1,15 @@
 {
-  "name": "thr_cpkxfcfi4e",
+  "name": "llm-master-ua",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Український форк матеріалів про інженерію великих мовних моделей",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check": "node tools/check.mjs",
+    "tokens": "node tools/tokens-ua.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.125.0"
+    "@anthropic-ai/sdk": "^0.125.0",
+    "gpt-tokenizer": "^3.0.1"
   }
 }

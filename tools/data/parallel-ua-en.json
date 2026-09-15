@@ -1,0 +1,53 @@
+{
+  "_": "Паралельний набір: типові для LLM-застосунку тексти українською та англійською. Переклад ручний, пари змістовно еквівалентні.",
+  "pairs": [
+    {
+      "ua": "Ти — асистент служби підтримки інтернет-магазину. Відповідай ввічливо й коротко. Якщо для відповіді бракує даних про замовлення, спершу попроси номер замовлення. Ніколи не обіцяй повернення коштів, поки не перевірив статус замовлення через інструмент.",
+      "en": "You are a customer support assistant for an online store. Answer politely and concisely. If you lack order data, ask for the order number first. Never promise a refund before checking the order status with the tool."
+    },
+    {
+      "ua": "Поверни відповідь строго у форматі JSON з полями category, confidence і need_human. Не додавай жодного тексту поза JSON.",
+      "en": "Return the answer strictly as JSON with the fields category, confidence and need_human. Do not add any text outside the JSON."
+    },
+    {
+      "ua": "Доброго дня! Я оформив замовлення минулого тижня, гроші списалися, але статус досі «очікує оплати». Що робити?",
+      "en": "Hello! I placed an order last week, the money was charged, but the status is still \"awaiting payment\". What should I do?"
+    },
+    {
+      "ua": "Повернення товару належної якості можливе протягом чотирнадцяти днів з дня купівлі за умови збереження товарного вигляду, споживчих властивостей, пломб і ярликів, а також наявності розрахункового документа.",
+      "en": "A product of adequate quality may be returned within fourteen days of purchase provided that its presentation, consumer properties, seals and labels are preserved and the payment document is available."
+    },
+    {
+      "ua": "Векторна база даних зберігає ембединги документів і шукає найближчих сусідів за косинусною відстанню. Замість повного перебору вона будує наближений індекс, тому пошук по мільйону векторів триває одиниці мілісекунд.",
+      "en": "A vector database stores document embeddings and searches for nearest neighbours by cosine distance. Instead of a full scan it builds an approximate index, so a search over a million vectors takes single-digit milliseconds."
+    },
+    {
+      "ua": "Проаналізуй цей фрагмент коду, знайди помилку й поясни, чому вона виникає саме за одночасних запитів.",
+      "en": "Analyse this code fragment, find the bug and explain why it occurs specifically under concurrent requests."
+    },
+    {
+      "ua": "Користувач скаржиться, що бот вигадує номери документів. Опиши три рівні захисту: обмеження у промпті, перевірка доказів після пошуку та валідація вихідного формату.",
+      "en": "The user complains that the bot invents document numbers. Describe three layers of defence: constraints in the prompt, evidence checking after retrieval, and output format validation."
+    },
+    {
+      "ua": "Витягни з тексту назву компанії, суму договору та кінцеву дату виконання. Якщо якогось поля немає, постав null.",
+      "en": "Extract the company name, the contract amount and the completion deadline from the text. If a field is missing, set it to null."
+    },
+    {
+      "ua": "Контекстне вікно — це максимальна кількість токенів, які модель бачить одночасно: системний промпт, історія діалогу, результати інструментів і сама відповідь. Коли вікно переповнюється, найстаріші повідомлення доводиться стискати або викидати.",
+      "en": "The context window is the maximum number of tokens the model sees at once: the system prompt, the dialogue history, tool results and the answer itself. When the window overflows, the oldest messages have to be compressed or dropped."
+    },
+    {
+      "ua": "Порівняй два підходи до чанкінгу: розбиття фіксованої довжини з перекриттям і розбиття за структурою документа. Поясни, у якому випадку перший варіант руйнує зміст.",
+      "en": "Compare two chunking approaches: fixed-length splitting with overlap, and splitting by document structure. Explain when the first option destroys meaning."
+    },
+    {
+      "ua": "Дякую, це саме те, що я шукав. Можеш ще коротко пояснити, чому саме гібридний пошук працює краще за суто векторний на запитах із номерами артикулів?",
+      "en": "Thanks, that is exactly what I was looking for. Could you also briefly explain why hybrid search works better than pure vector search on queries containing part numbers?"
+    },
+    {
+      "ua": "Перед відповіддю переконайся, що кожне твердження спирається на наданий контекст. Якщо в контексті відповіді немає, так і скажи: «у наданих документах цієї інформації немає».",
+      "en": "Before answering, make sure every statement is supported by the provided context. If the context has no answer, say so: \"the provided documents do not contain this information\"."
+    }
+  ]
+}
