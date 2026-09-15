@@ -1,6 +1,6 @@
 ---
 title: "Система оцінювання RAG: Recall, Precision, MRR, NDCG і фреймворк RAGAS для якості генерації"
-description: RAG без оцінювання — це оптимізація наосліп. Системно розбираємо повну рамку оцінювання RAG: метрики боку пошуку (Recall, Precision, MRR, NDCG) і чотири виміри фреймворку RAGAS на боці генерації (Faithfulness, Answer Relevancy, Context Relevancy, Context Recall). Плюс побудова golden set, офлайн- та онлайн-оцінювання, моніторинг частки прийнятих відповідей, компроміс між затримкою й вартістю оцінювання та відповіді на співбесіді.
+description: "RAG без оцінювання — це оптимізація наосліп. Системно розбираємо повну рамку оцінювання RAG: метрики боку пошуку (Recall, Precision, MRR, NDCG) і чотири виміри фреймворку RAGAS на боці генерації (Faithfulness, Answer Relevancy, Context Relevancy, Context Recall). Плюс побудова golden set, офлайн- та онлайн-оцінювання, моніторинг частки прийнятих відповідей, компроміс між затримкою й вартістю оцінювання та відповіді на співбесіді."
 keywords: [оцінювання RAG, Recall, Precision, MRR, NDCG, RAGAS, Faithfulness, Answer Relevancy, Context Relevancy, метрики RAG, оцінювання пошуку, оцінювання генерації, оптимізація RAG, Golden Set, набір для оцінювання, частка прийнятих відповідей, A/B-тестування, офлайн-оцінювання, онлайн-оцінювання]
 tags: [RAG, застосунки на LLM, співбесіда з LLM]
 ---

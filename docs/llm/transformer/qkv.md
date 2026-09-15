@@ -1,6 +1,6 @@
 ---
-title: Механізм attention: що таке Q, K, V і чому це серце Transformer
-description: Розбір механізму attention на інтуїції: яку роль грають Query, Key і Value, навіщо моделі звертати увагу на різні токени, як схожість Q і K визначає ваги уваги, як Value збирає інформацію, чим attention відрізняється від повнозв'язного шару і чому embedding — передумова для обчислення attention.
+title: "Механізм attention: що таке Q, K, V і чому це серце Transformer"
+description: "Розбір механізму attention на інтуїції: яку роль грають Query, Key і Value, навіщо моделі звертати увагу на різні токени, як схожість Q і K визначає ваги уваги, як Value збирає інформацію, чим attention відрізняється від повнозв'язного шару і чому embedding — передумова для обчислення attention."
 keywords: ["attention", "QKV", "механізм уваги", "серце Transformer", "embedding"]
 tags: ["Transformer", "attention"]
 ---

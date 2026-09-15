@@ -1,19 +1,35 @@
 #!/usr/bin/env node
-// Перевірка: залишки китайської + биті відносні посилання.
+// Перевірка: валідність frontmatter + залишки китайської + биті відносні посилання.
 import { readFileSync, existsSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { dirname, resolve, join } from 'node:path'
+import { createRequire } from 'node:module'
+
+const yaml = createRequire(import.meta.url)('js-yaml')
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname)
 const files = execSync(`find ${join(ROOT,'docs')} -name '*.md'`, {encoding:'utf8'}).trim().split('\n')
 const only = process.argv[2]   // необов'язковий фільтр за шляхом
 
-let cjkFiles = 0, broken = 0, checked = 0, intentional = 0, stray = 0
+let cjkFiles = 0, broken = 0, checked = 0, intentional = 0, stray = 0, fmBad = 0
 for (const f of files) {
   if (only && !f.includes(only)) continue
   checked++
   const src = readFileSync(f, 'utf8')
   const rel = f.slice(ROOT.length + 1)
+
+  // 0) frontmatter має бути валідним YAML — інакше GitHub покаже
+  //    «Error in user YAML» замість статті. Найчастіша причина — двокрапка
+  //    з пробілом усередині незакавиченого значення.
+  const fm = src.match(/^---\n([\s\S]*?)\n---\n/)
+  if (fm) {
+    try {
+      const data = yaml.load(fm[1])
+      if (!data || !data.title) { console.log(`  ${rel}: у frontmatter немає title`); fmBad++ }
+    } catch (e) {
+      console.log(`  ${rel}: поламаний frontmatter — ${e.message.split('\n')[0]}`); fmBad++
+    }
+  }
 
   // 1) китайські ієрогліфи поза блоками коду
   const noCode = src.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '')
@@ -38,10 +54,10 @@ for (const f of files) {
     if (!existsSync(target)) { console.log(`  ${rel} → битий лінк: ${m[1]}`); broken++ }
   }
 }
-console.log(`\nперевірено ${checked} файлів | недоперекладених: ${cjkFiles} | навмисна китайська: ${intentional} | сторонні символи: ${stray} | битих лінків: ${broken}`)
+console.log(`\nперевірено ${checked} файлів | поламаний frontmatter: ${fmBad} | недоперекладених: ${cjkFiles} | навмисна китайська: ${intentional} | сторонні символи: ${stray} | битих лінків: ${broken}`)
 
 // Ненульовий код виходу, щоб це працювало в CI.
-if (cjkFiles || stray || broken) {
+if (fmBad || cjkFiles || stray || broken) {
   console.error("\nперевірка не пройшла")
   process.exit(1)
 }

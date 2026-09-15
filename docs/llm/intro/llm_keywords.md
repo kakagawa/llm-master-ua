@@ -1,6 +1,6 @@
 ---
-title: Ключові поняття LLM: від Prompt до Agent і MCP — 13 термінів в одній статті
-description: Уся термінологія навколо LLM в одному матеріалі: Prompt, Token, контекстне вікно, галюцинації, Structured Output, Function Calling, RAG, Embedding, векторні бази даних, fine-tuning, Agent, MCP, Skill. Починаємо з найпростішого чату, і кожне наступне поняття природно випливає з попереднього.
+title: "Ключові поняття LLM: від Prompt до Agent і MCP — 13 термінів в одній статті"
+description: "Уся термінологія навколо LLM в одному матеріалі: Prompt, Token, контекстне вікно, галюцинації, Structured Output, Function Calling, RAG, Embedding, векторні бази даних, fine-tuning, Agent, MCP, Skill. Починаємо з найпростішого чату, і кожне наступне поняття природно випливає з попереднього."
 keywords: ["ключові поняття LLM", "Prompt", "Agent", "RAG", "MCP", "Skill", "Function Calling", "контекстне вікно", "Token", "галюцинації", "Embedding", "векторна база даних", "fine-tuning", "старт у LLM"]
 tags: ["LLM", "розробка застосунків"]
 ---

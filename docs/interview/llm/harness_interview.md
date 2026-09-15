@@ -1,6 +1,6 @@
 ---
 title: "Збірка питань про Harness Engineering: від промпта до контексту й harness, порівняння Hermes Agent і OpenClaw"
-description: Збірка частих питань за напрямом Harness Engineering: три зміщення центру ваги — від промпта до контексту й harness; шість базових шарів harness; історія терміна від Мітчелла Гашимото й OpenAI; порівняння Hermes Agent і OpenClaw; п'ять реальних інженерних проблем великих компаній; уточнення на співбесідах і підходи до відповідей.
+description: "Збірка частих питань за напрямом Harness Engineering: три зміщення центру ваги — від промпта до контексту й harness; шість базових шарів harness; історія терміна від Мітчелла Гашимото й OpenAI; порівняння Hermes Agent і OpenClaw; п'ять реальних інженерних проблем великих компаній; уточнення на співбесідах і підходи до відповідей."
 keywords: ["питання про Harness Engineering", "питання зі співбесід про LLM", "Context Engineering", "Prompt Engineering", "Hermes Agent", "OpenClaw", "Mitchell Hashimoto", "співбесіда про агентів", "співбесіди у великих компаніях", "інженерія AI"]
 tags: ["співбесіда про Harness Engineering", "співбесіда про великі моделі", "співбесіда про LLM", "пошук роботи в AI"]
 ---

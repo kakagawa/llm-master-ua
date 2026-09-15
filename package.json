@@ -10,6 +10,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "gpt-tokenizer": "^3.0.1"
+    "gpt-tokenizer": "^3.0.1",
+    "js-yaml": "^5.4.2"
   }
 }
