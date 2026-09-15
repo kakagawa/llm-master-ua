@@ -21,9 +21,9 @@ node tools/check.mjs docs/llm/app # тільки одна тека
 | `docs/llm/transformer/` | 15 | 15 | ✅ готово |
 | `docs/llm/app/` | 39 | 39 | ✅ готово |
 | `docs/llm/claude/` | 15 | 15 | ✅ готово |
-| `docs/interview/llm/` | 28 | 27 | |
+| `docs/interview/llm/` | 28 | 28 | ✅ готово |
 | `docs/README.md` | 1 | 0 | ⚠️ робити **останнім** — це індекс на всі статті |
-| **Разом** | **123** | **119** | |
+| **Разом** | **123** | **120** | |
 
 ## Порядок
 
