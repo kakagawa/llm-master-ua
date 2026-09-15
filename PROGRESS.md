@@ -19,11 +19,11 @@ node tools/check.mjs docs/llm/app # тільки одна тека
 | `docs/topics/` | 7 | 7 | ✅ готово |
 | `docs/llm/intro/` | 12 | 12 | ✅ готово |
 | `docs/llm/transformer/` | 15 | 15 | ✅ готово |
-| `docs/llm/app/` | 39 | 32 | лишились fine-tuning і деплой |
+| `docs/llm/app/` | 39 | 33 | лишились fine-tuning і деплой |
 | `docs/llm/claude/` | 15 | 0 | |
 | `docs/interview/llm/` | 28 | 0 | |
 | `docs/README.md` | 1 | 0 | ⚠️ робити **останнім** — це індекс на всі статті |
-| **Разом** | **123** | **70** | |
+| **Разом** | **123** | **71** | |
 
 ## Порядок
 
