@@ -17,13 +17,13 @@ node tools/check.mjs docs/llm/app # тільки одна тека
 |---|---:|---:|---|
 | `docs/roadmap/` | 5 | 5 | ✅ готово |
 | `docs/topics/` | 7 | 7 | ✅ готово |
-| `docs/llm/intro/` | 12 | 5 | у роботі |
+| `docs/llm/intro/` | 12 | 10 | лишились 2 «напівновини» |
 | `docs/llm/transformer/` | 15 | 1 | `qkv.md` |
 | `docs/llm/app/` | 39 | 1 | `why_rag.md` |
 | `docs/llm/claude/` | 15 | 0 | |
 | `docs/interview/llm/` | 28 | 0 | |
 | `docs/README.md` | 1 | 0 | ⚠️ робити **останнім** — це індекс на всі статті |
-| **Разом** | **123** | **19** | |
+| **Разом** | **123** | **24** | |
 
 ## Порядок
 
