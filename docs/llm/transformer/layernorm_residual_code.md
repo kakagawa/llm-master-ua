@@ -8,7 +8,7 @@ tags: [Transformer, код з нуля, співбесіда]
 # Пишемо LayerNorm і залишкове з'єднання з нуля: не дайте базовим компонентам лишитися непоміченими
 
 > 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
-> [`code/transformer/layernorm_residual.py`](../../../code/transformer/layernorm_residual.py). Потрібен лише numpy.
+> [`code/transformer/layernorm_residual.py`](https://github.com/kakagawa/llm-master-ua/blob/main/code/transformer/layernorm_residual.py). Потрібен лише numpy.
 
 У попередній статті ми з нуля написали FFN і пройшли повний шлях: підвищення розмірності → активація → зниження розмірності.
 
@@ -17,7 +17,7 @@ tags: [Transformer, код з нуля, співбесіда]
 На вигляд вони прості, коду разом не більше 20 рядків, але без будь-якого з них Transformer не вдасться зробити глибоким.
 
 > Числові твердження цієї статті перевірені скриптом
-> [`tools/verify-layernorm.mjs`](../../../tools/verify-layernorm.mjs).
+> [`tools/verify-layernorm.mjs`](https://github.com/kakagawa/llm-master-ua/blob/main/tools/verify-layernorm.mjs).
 
 ## Залишкове з'єднання
 

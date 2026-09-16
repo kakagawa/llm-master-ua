@@ -8,7 +8,7 @@ tags: [Transformer, код з нуля, співбесіда]
 # Пишемо FFN з нуля: реалізація мережі прямого поширення Transformer
 
 > 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
-> [`code/transformer/ffn.py`](../../../code/transformer/ffn.py). Потрібен лише numpy.
+> [`code/transformer/ffn.py`](https://github.com/kakagawa/llm-master-ua/blob/main/code/transformer/ffn.py). Потрібен лише numpy.
 
 У попередній статті ми з нуля написали multi-head attention і пройшли повний процес із п'яти кроків: розбиття → паралельне обчислення → склеювання → проєкція.
 
@@ -21,7 +21,7 @@ tags: [Transformer, код з нуля, співбесіда]
 У цій статті ми реалізуємо цей «модуль мислення» в коді, друкуючи shape на кожному кроці, щоб бачити, як змінюються дані.
 
 > Числові твердження цієї статті перевірені скриптом
-> [`tools/verify-ffn.mjs`](../../../tools/verify-ffn.mjs).
+> [`tools/verify-ffn.mjs`](https://github.com/kakagawa/llm-master-ua/blob/main/tools/verify-ffn.mjs).
 
 ---
 

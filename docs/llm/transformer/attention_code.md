@@ -8,12 +8,12 @@ tags: [Transformer, код з нуля, співбесіда]
 # Пишемо attention з нуля: реалізація механізму уваги без фреймворків
 
 > 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
-> [`code/transformer/attention.py`](../../../code/transformer/attention.py). Потрібен лише numpy.
+> [`code/transformer/attention.py`](https://github.com/kakagawa/llm-master-ua/blob/main/code/transformer/attention.py). Потрібен лише numpy.
 
 У попередній статті ми розібрали **структуру одного шару Transformer Block**. Тепер напишемо attention з нуля мінімальним обсягом коду, друкуючи shape на кожному кроці, щоб було видно, як рухаються дані.
 
 > Усі числові виходи в цій статті перевірені незалежним перерахунком —
-> дивіться [`tools/verify-attention-code.mjs`](../../../tools/verify-attention-code.mjs).
+> дивіться [`tools/verify-attention-code.mjs`](https://github.com/kakagawa/llm-master-ua/blob/main/tools/verify-attention-code.mjs).
 > Запустивши код самостійно, ви отримаєте точно такі самі числа.
 
 Спершу пригадаймо сказане раніше:

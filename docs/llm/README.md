@@ -36,7 +36,7 @@ tags: ["великі моделі", "розробка застосунків", "
 - 👉 [Шлях навчання LLM: у якому порядку йти від нуля до робочого проєкту](./intro/llm_learning_roadmap.md) (**новачкам — почати звідси**, це огляд усього шляху)
 - [Ключові поняття LLM: від Prompt до Agent і MCP — 13 термінів в одній статті](./intro/llm_keywords.md)
 - [Чим Claude Code відрізняється від Claude.ai? Три рівні архітектури AI-продуктів для програмування](./intro/ai-coding-three-layers.md)
-- 👉 [Розділ про Claude: Claude Code від перших кроків до інженерної практики](./claude/) (**хочете системно вивчити Claude Code — вам сюди**)
+- 👉 [Розділ про Claude: Claude Code від перших кроків до інженерної практики](./claude/README.md) (**хочете системно вивчити Claude Code — вам сюди**)
 - [Чим відрізняються позиції LLM-розробника, ML-інженера та C++/Java/Go-розробника?](./intro/application_development.md)
 - [Чим насправді займається розробка застосунків на LLM](./intro/app_dev_overview.md)
 - [Як тарифікується API великих моделей](./intro/llm_pricing.md)
@@ -137,7 +137,7 @@ tags: ["великі моделі", "розробка застосунків", "
 ### Розділ 9. Пишемо Transformer з нуля (код для співбесід)
 
 Найпростіший код для кожного компонента: щоб глибше зрозуміти й упевнено писати на співбесіді.
-Увесь код зібрано у файли, які запускаються: [`code/transformer/`](../../code/README.md).
+Увесь код зібрано у файли, які запускаються: [`code/transformer/`](https://github.com/kakagawa/llm-master-ua/blob/main/code/README.md).
 
 - [Пишемо attention з нуля без фреймворків](./transformer/attention_code.md)
 - [Пишемо Multi-Head Attention: від однієї голови до багатьох](./transformer/mha_code.md)
@@ -154,7 +154,7 @@ tags: ["великі моделі", "розробка застосунків", "
 
 ## Матеріали до співбесід
 
-Коли навчилися робити проєкти, наступний крок — перетворити це на офер. До курсу додається [добірка питань зі співбесід про LLM](../interview/llm/), розсортована за напрямками:
+Коли навчилися робити проєкти, наступний крок — перетворити це на офер. До курсу додається [добірка питань зі співбесід про LLM](../interview/llm/README.md), розсортована за напрямками:
 
 - [Transformer: питання зі співбесід](../interview/llm/transformer_interview.md)
 - [RAG: питання зі співбесід](../interview/llm/rag_interview.md) | [Де RAG найважче впровадити](../interview/llm/rag_hardest_parts_interview.md)
@@ -163,4 +163,4 @@ tags: ["великі моделі", "розробка застосунків", "
 - [Claude Code: питання зі співбесід](../interview/llm/claude_code_deep_dive.md) | [Vibe Coding: питання зі співбесід](../interview/llm/vibe_coding_interview.md)
 - [Чотири раунди співбесіди на Agent-розробника в ByteDance](../interview/llm/20260506bytedance.md)
 
-Решта — у [добірці питань зі співбесід](../interview/llm/), за темами: Transformer, RAG, агенти, донавчання, AI-програмування.
+Решта — у [добірці питань зі співбесід](../interview/llm/README.md), за темами: Transformer, RAG, агенти, донавчання, AI-програмування.

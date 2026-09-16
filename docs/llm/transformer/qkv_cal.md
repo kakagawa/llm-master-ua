@@ -137,7 +137,7 @@ $$
 Можна перевірити: сума кожного рядка дорівнює 1 ✅
 
 > Усі числа в цьому прикладі перераховані незалежно скриптом
-> [`tools/verify-attention.mjs`](../../../tools/verify-attention.mjs) — запустіть
+> [`tools/verify-attention.mjs`](https://github.com/kakagawa/llm-master-ua/blob/main/tools/verify-attention.mjs) — запустіть
 > `node tools/verify-attention.mjs`, щоб звірити самостійно.
 
 Вага, з якою «тебе» звертає увагу на себе, становить 0.50 — рівно вдвічі більше, ніж на кожне з двох інших слів (по 0.25).

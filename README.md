@@ -11,7 +11,7 @@
 ![Articles](https://img.shields.io/badge/статей-126-1f6feb?style=flat-square)
 ![Language](https://img.shields.io/badge/мова-українська-005BBB?style=flat-square)
 
-[Почати вчитися](docs/roadmap/README.md) · [Усі матеріали](docs/README.md) · [Теми](docs/topics/README.md) · [Співбесіди](docs/interview/llm/README.md) · [Глосарій](GLOSSARY.md)
+[Сайт](https://kakagawa.github.io/llm-master-ua/) · [Почати вчитися](docs/roadmap/README.md) · [Усі матеріали](docs/README.md) · [Теми](docs/topics/README.md) · [Співбесіди](docs/interview/llm/README.md) · [Глосарій](GLOSSARY.md)
 
 </div>
 

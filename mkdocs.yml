@@ -1,0 +1,72 @@
+site_name: LLM Master UA
+site_description: >-
+  Українська адаптація повного курсу з інженерії великих мовних моделей:
+  RAG, агенти, донавчання, деплой, Transformer і матеріали до співбесід.
+site_url: https://kakagawa.github.io/llm-master-ua/
+repo_url: https://github.com/kakagawa/llm-master-ua
+repo_name: kakagawa/llm-master-ua
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: _site
+
+theme:
+  name: material
+  language: uk
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Темна тема
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Світла тема
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: "#"
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search:
+      lang: en
+      separator: '[\s​\-_,:!=\[\]()"`/]+'
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kakagawa/llm-master-ua
+
+copyright: >-
+  Оригінал — 程序员Carl (youngyangyang04/llm-master), MIT.
+  Український переклад і додані матеріали — Artem Khanter, MIT.

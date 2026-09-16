@@ -8,7 +8,7 @@ tags: [Transformer, код з нуля, співбесіда]
 # Пишемо Tiny Transformer з нуля: збираємо повну модель
 
 > 💻 Увесь код цієї статті зібрано в один файл, який можна запустити:
-> [`code/transformer/tiny_transformer.py`](../../../code/transformer/tiny_transformer.py). Потрібен лише numpy.
+> [`code/transformer/tiny_transformer.py`](https://github.com/kakagawa/llm-master-ua/blob/main/code/transformer/tiny_transformer.py). Потрібен лише numpy.
 
 У попередніх статтях ми окремо написали власноруч attention, multi-head attention, FFN, залишкові з'єднання, LayerNorm і цілий Transformer Block.
 
@@ -17,7 +17,7 @@ tags: [Transformer, код з нуля, співбесіда]
 У цій статті робимо останній крок: складаємо ці деталі разом і пишемо **мінімальний робочий Tiny Transformer**.
 
 > Вивід цього прикладу перевірено повним незалежним прогоном —
-> дивіться [`tools/verify-tiny-transformer.mjs`](../../../tools/verify-tiny-transformer.mjs).
+> дивіться [`tools/verify-tiny-transformer.mjs`](https://github.com/kakagawa/llm-master-ua/blob/main/tools/verify-tiny-transformer.mjs).
 > Передбачення `[5 5 4 3]` відтворюється точно.
 
 ---

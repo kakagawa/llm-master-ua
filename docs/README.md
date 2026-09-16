@@ -4,7 +4,7 @@
 
 - [Оригінальний огляд шляху навчання LLM](llm/README.md)
 - [Покажчик за темами](topics/README.md)
-- [Код зі статей, який можна запустити](../code/README.md)
+- [Код зі статей, який можна запустити](https://github.com/kakagawa/llm-master-ua/blob/main/code/README.md)
 
 ## Основи та вступ
 
